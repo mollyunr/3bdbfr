@@ -2,11 +2,13 @@ import numpy as np
 import cv2
 import sys
 
+# to run: python detect.py <image_name>
+
 class image:
 
 	def __init__(self, filename):
 		self.imageFile = filename
-		self.classifierPath = '/usr/include/OpenCV/opencv-3.0.0/data/haarcascades/haarcascade_frontalface_default.xml'
+		self.classifierPath = '/usr/share/opencv/haarcascades/haarcascade_frontalface_default.xml'
 
 	def readImageFromFile(self):
 		self.uncropped = cv2.imread(self.imageFile)
