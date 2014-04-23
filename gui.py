@@ -750,6 +750,8 @@ class Ui_Form(QtGui.QDialog):
         f = open('context.txt', 'w')
         f.write('')
         self.stackedWidget.setCurrentIndex(0)
+        self.lineEdit.setText('')
+        self.lineEdit_2.setText('')
 
     @QtCore.pyqtSignature("on_pushButton_15_clicked()")
     def gotoTakePictures(self):
