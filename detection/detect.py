@@ -55,5 +55,5 @@ if __name__ == '__main__':
 	if detect.detectFace():
 		detect.cropImage()
 		detect.writeCroppedImage()
-		detect.showImage('image')
+		#detect.showImage('image')
 
