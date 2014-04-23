@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'testStack.ui'
@@ -204,7 +205,6 @@ class Ui_Form(QtGui.QDialog):
         self.stackedWidget.addWidget(self.userMenu)
         self.verticalLayout.addWidget(self.stackedWidget)
         self.verticalLayout_2.addLayout(self.verticalLayout)
-
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
@@ -227,225 +227,26 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_4.setText(_translate("Form", "Remove User", None))
         self.label_12.setText(_translate("Form", "User Menu", None))
 
-    def loginScript(self, username, password):
-        action = 'login_attempt'
-        attempted_user = username
-        found = 'false'
-        privileges = 'none'
-        t = time.time()
-        timestamp = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M:%S')
-        f = open('userdatabase.txt', 'r')
-        fileLength = sum(1 for line in f)
-        f.close()
+    def file_len(fname):
+        with open(fname) as f:
+            for i, l in enumerate(f):
+                pass
+        return i + 1
 
-        f = open('userdatabase.txt', 'r')
-        temp = list(f)
-        f.close()
-
-        for index in range(0, fileLength):
-            temp[index] = temp[index].split();
-
-        for index in range(0, len(temp)):
-            if username == temp[index][0]:
-                if password == temp[index][1]:
-                    found = 'true'
-                    privileges = temp[index][2]
-
-        f = open('log.txt', 'a')
-        f.write(timestamp + '\n')
-        f.write(action + '\n')
-        f.write('attempted user: ' + attempted_user + '\n')
-        f.write('user found: ' + found + '\n')
-        f.write('user privileges: ' + privileges + '\n' + '\n')
-        f.close()
-
-        f = open('context.txt', 'w')
-        f.write(found + '\n')
-        f.write(privileges + '\n')
-        f.close()
-        return privileges
-
-    def createDatabase(self, name):
-        action = 'create_database'
-        log = 'false'
-        t = time.time()
-        timestamp = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M:%S')
-
-        f = open('userdatabase.txt', 'r')
-        fileLength = sum(1 for line in f)
-        f.close()
-
-        if fileLength > 0:
-            f = open('userdatabase.txt', 'r')
-            temp = list(f)
-            f.close()
-
-            for index in range(0, fileLength):
-                temp[index] = temp[index].split();
-
-            if not os.path.exists(name):
-                os.mkdir(name)
-                log = 'true'
-
-            for index in range(0, fileLength):
-                if not os.path.exists(name + '/' + temp[index][0]):
-                    os.mkdir(name + '/' + temp[index][0])
-
-            path, dirs, files = os.walk(name).next()
-            directory_count = len(dirs)
-            database_size = os.path.getsize(name)
-
-            path, dirs, files = os.walk(name + '/' + temp[0][0]).next()
-            picture_count = len(files)
-
-            f = open(name + '/' + 'database_information.txt', 'w')
-            f.write('users: ' + str(directory_count) + '\n')
-            f.write('database size: ' + str(database_size) + ' bytes' + '\n')
-            f.write('pictures per user: ' + str(picture_count) + '\n')
-            f.close()
-
-            if log == 'true':
-                f = open('log.txt', 'a')
-                f.write('\n' + timestamp + '\n')
-                f.write(action + '\n' + '\n')
-                f.close()
-
-        f = open('context.txt', 'w')
-
-        if log == 'true':
-            f.write('database created\n')
-            return True
-        else:
-            f.write('database of the same name already exists\n')
-            f.close()
-            return False
-
-    def addUser(self,user,password,privileges,database_name):
-        action = 'add_user'
-        created = 'false'
-        t = time.time()
-        timestamp = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M:%S')
-
-        f = open('userdatabase.txt', 'r')
-        fileLength = sum(1 for line in f)
-        f.close()
-
-        f = open('userdatabase.txt', 'r')
-        temp = list(f)
-        f.close()
-
-        for index in range(0, fileLength):
-            temp[index] = temp[index].split();
-
-        if not os.path.exists(database_name + '/' + user):
-            os.mkdir(database_name + '/' + user)
-            created = 'true'
-
-            new_user = []
-            new_user.append(user)
-            new_user.append(password)
-            new_user.append(privileges)
-
-            temp.append(new_user)
-
-            f = open('userdatabase.txt', 'w')
-            for index in range(0, len(temp)):
-                f.write(temp[index][0] + ' ' + temp[index][1] + ' ' + temp[index][2] + '\n')
-            f.close()
-
-            f = open('log.txt', 'a')
-            f.write(timestamp + '\n')
-            f.write(action + '\n')
-            f.write('user: ' + user + '\n')
-            f.write('privileges: ' + privileges + '\n')
-            f.write('database name: ' + database_name + '\n' + '\n')
-            f.close()
-
-            path, dirs, files = os.walk(database_name).next()
-            directory_count = len(dirs)
-            database_size = os.path.getsize(database_name)
-
-            path, dirs, files = os.walk(database_name + '/' + temp[0][0]).next()
-            picture_count = len(files)
-
-            f = open(database_name + '/' + 'database_information.txt', 'w')
-            f.write('users: ' + str(directory_count) + '\n')
-            f.write('database size: ' + str(database_size) + ' bytes' + '\n')
-            f.write('pictures per user: ' + str(picture_count) + '\n')
-            f.close()
-
-        f = open('context.txt', 'w')
-        if created == 'true':
-            f.write('user created')
-            return True
-        else:
-            f.write('user not created')
-            return False
-        f.close()
-
-    def removeUser(self, user, database_name):
-        action = 'remove_user'
-        removed = 'false'
-        t = time.time()
-        timestamp = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M:%S')
-
-        f = open('userdatabase.txt', 'r')
-        fileLength = sum(1 for line in f)
-        f.close()
-
-        f = open('userdatabase.txt', 'r')
-        temp = list(f)
-        f.close()
-
-        for index in range(0, fileLength):
-            temp[index] = temp[index].split();
-
-        if os.path.exists(database_name + '/' + user):
-            os.rmdir(database_name + '/' + user)
-
-            for index in range(0, fileLength):
-                if temp[index][0] == user:
-                    del temp[index]
-
-            f = open('userdatabase.txt', 'w')
-            for index in range(0, len(temp)):
-                f.write(temp[index][0] + ' ' + temp[index][1] + ' ' + temp[index][2] + '\n')
-            f.close()
-
-            path, dirs, files = os.walk(database_name).next()
-            directory_count = len(dirs)
-            database_size = os.path.getsize(database_name)
-
-            path, dirs, files = os.walk(database_name + '/' + temp[0][0]).next()
-            picture_count = len(files)
-
-            f = open(database_name + '/' + 'database_information.txt', 'w')
-            f.write('users: ' + str(directory_count) + '\n')
-            f.write('database size: ' + str(database_size) + ' bytes' + '\n')
-            f.write('pictures per user: ' + str(picture_count) + '\n')
-            f.close()
-
-            f = open('log.txt', 'a')
-            f.write(timestamp + '\n')
-            f.write(action + '\n')
-            f.write('user: ' + user + '\n')
-            f.write('database name: ' + database_name + '\n' + '\n')
-            f.close()
-
-        f = open('context.txt', 'w')
-        if removed == 'true':
-            f.write('user removed')
-            return True
-        else:
-            f.write('user does not exist')
-            return False
-        f.close()
+    def readContextFile(self):
+        len = file_len("context.txt")
+        with open("context.txt") as f:
+            for i in range(1, len):
+                lines[i] = f.readline()
+        print lines
 
     @QtCore.pyqtSignature("on_pushButton_clicked()")
-    def mainmenu(self):
+    def loginMenu(self):
         arg1 = str(self.lineEdit.text())
         arg2 = str(self.lineEdit_2.text())
-        privileges = self.loginScript(arg1,arg2)
+        os.system("python login.py " + arg1 + ' ' + arg2)
+        self.readContextFile()
+        '''privileges = self.loginScript(arg1,arg2)
         print privileges
         if privileges == "admin":
             self.stackedWidget.setCurrentIndex(1)
@@ -453,19 +254,20 @@ class Ui_Form(QtGui.QDialog):
 		    self.stackedWidget.setCurrentIndex(2)
         else:
             QtGui.QMessageBox.warning(self, 'Not Found', 'Not Found')
+        '''
 
     @QtCore.pyqtSignature("on_pushButton_2_clicked()")
     def adminmenu(self):
-        name = str(self.lineEdit_3.text())
+        '''name = str(self.lineEdit_3.text())
         success = self.createDatabase(name);
         if success:
             QtGui.QMessageBox.information(self, 'Success', 'Data Base ' + name + " created.")
         else:
             QtGui.QMessageBox.warning(self, 'Database not created', 'A database with that name already exists.')
-
+        '''
     @QtCore.pyqtSignature("on_pushButton_3_clicked()")
     def adminAddUsermenu(self):   
-        user = str(self.lineEdit_4.text())
+        '''user = str(self.lineEdit_4.text())
         password = str(self.lineEdit_6.text())
         privileges = str(self.lineEdit_5.text())
         dbname = str(self.lineEdit_7.text())
@@ -474,10 +276,10 @@ class Ui_Form(QtGui.QDialog):
             QtGui.QMessageBox.information(self, 'Success', 'User ' + user + " created.")
         else:
             QtGui.QMessageBox.warning(self, 'Error: User not created.')
-
+        '''
     @QtCore.pyqtSignature("on_pushButton_4_clicked()")
     def removeUserMenu(self):
-        username = str(self.lineEdit_9.text())
+        '''username = str(self.lineEdit_9.text())
         print username
         dbname = str(self.lineEdit_8.text())
         print dbname
@@ -486,10 +288,11 @@ class Ui_Form(QtGui.QDialog):
             QtGui.QMessageBox.information(self, 'Success', 'User ' + user + " removed.")
         else:
             QtGui.QMessageBox.warning(self, 'Error', 'User not found.')
-
+        '''
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     ex = Ui_Form()
     ex.show()
+    ex.loginMenu()
     sys.exit(app.exec_())
 
