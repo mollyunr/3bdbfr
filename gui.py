@@ -371,6 +371,8 @@ class Ui_Form(QtGui.QDialog):
         self.users_combo.setObjectName(_fromUtf8("users_combo"))
         self.verticalLayout_7.addWidget(self.users_combo)
         self.dbs_combo = QtGui.QComboBox(self.editUserMenu)
+        self.dbs_combo.setModel(self.fsm)
+        self.dbs_combo.setRootModelIndex(self.index)
         self.dbs_combo.setObjectName(_fromUtf8("dbs_combo"))
         self.verticalLayout_7.addWidget(self.dbs_combo)
         self.horizontalLayout_26 = QtGui.QHBoxLayout()
@@ -495,6 +497,15 @@ class Ui_Form(QtGui.QDialog):
             QtGui.QMessageBox.warning(self, 'Error', 'Username already exists.')
         
     @QtCore.pyqtSignature("on_pushButton_4_clicked()")
+    def gotoEditUserMenu(self):
+        self.stackedWidget.setCurrentIndex(6)
+        self.fsmUsers = QtGui.QFileSystemModel()
+        self.indexUsers = self.fsmUsers.setRootPath("databases/")
+        self.comboBox = QtGui.QComboBox(self.addUserMenu)
+        self.comboBox.setModel(self.fsm)
+        self.comboBox.setRootModelIndex(self.index)
+        
+
     def removeUserMenu(self):
         username = str(self.lineEdit_9.text())
         dbname = str(self.lineEdit_8.text())
