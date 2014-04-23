@@ -8,7 +8,7 @@ import StringIO
 import shutil
 from select import select
 
-SIZE = (500,500)
+SIZE = (100,100)
 CAM_INDEX = 0
 
 def timer(timeout):
