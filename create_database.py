@@ -49,6 +49,6 @@ if fileLength > 0 and arguments > 1:
 
     if log == 'true':
         f = open('log.txt', 'a')
-        f.write(timestamp + '\n')
+        f.write('\n' + timestamp + '\n')
         f.write(action + '\n' + '\n')
         f.close()
