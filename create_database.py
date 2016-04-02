@@ -52,3 +52,13 @@ if fileLength > 0 and arguments > 1:
         f.write('\n' + timestamp + '\n')
         f.write(action + '\n' + '\n')
         f.close()
+
+
+f = open('context.txt', 'w')
+
+if log == 'true':
+    f.write('database created\n')
+else:
+    f.write('database of the same name already exists\n')
+
+f.close()
