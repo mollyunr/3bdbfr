@@ -18,7 +18,7 @@ created = 'false'
 t = time.time()
 timestamp = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M:%S')
 
-if arguments > 4 and arguments < 6:
+if arguments == 5:
     f = open('userdatabase.txt', 'r')
     fileLength = sum(1 for line in f)
     f.close()
