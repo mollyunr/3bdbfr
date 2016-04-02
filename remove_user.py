@@ -4,15 +4,14 @@ import time
 import os
 
 #
-# Takes [username privileges database_name] as arguments
+# Takes [username database_name] as arguments
 #
 
 arguments = len(sys.argv)
 
 action = 'remove_user'
 user = sys.argv[1]
-privileges = sys.argv[2]
-database_name = sys.argv[3]
+database_name = sys.argv[2]
 removed = 'false'
 t = time.time()
 timestamp = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M:%S')
@@ -58,7 +57,6 @@ if arguments == 4:
         f.write(timestamp + '\n')
         f.write(action + '\n')
         f.write('user: ' + user + '\n')
-        f.write('privileges: ' + privileges + '\n')
         f.write('database name: ' + database_name + '\n' + '\n')
         f.close()
 
