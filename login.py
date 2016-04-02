@@ -2,6 +2,10 @@ import sys
 import datetime
 import time
 
+#
+# Takes [username password] as arguments 
+#
+
 arguments = len(sys.argv)
 
 action = 'login_attempt'
@@ -12,11 +16,11 @@ t = time.time()
 timestamp = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M:%S')
 
 if arguments > 1:
-    f = open("userdatabase.txt", 'r')
+    f = open('userdatabase.txt', 'r')
     fileLength = sum(1 for line in f)
     f.close()
 
-    f = open("userdatabase.txt", 'r')
+    f = open('userdatabase.txt', 'r')
     temp = list(f)
     f.close()
 
@@ -29,7 +33,7 @@ if arguments > 1:
                 found = 'true'
                 privileges = temp[index][2]
 
-f = open("log.txt", 'a')
+f = open('log.txt', 'a')
 f.write(timestamp + '\n')
 f.write(action + '\n')
 f.write('attempted user: ' + attempted_user + '\n')
@@ -37,7 +41,7 @@ f.write('user found: ' + found + '\n')
 f.write('user privileges: ' + privileges + '\n' + '\n')
 f.close()
 
-f = open("context.txt", 'w')
+f = open('context.txt', 'w')
 f.write(found + '\n')
 f.write(privileges + '\n')
 f.close()
