@@ -1,0 +1,18 @@
+2016-04-01 20:36:07
+login_attempt
+attempted user: nking
+user found: true
+user privileges: user
+
+2016-04-01 20:36:18
+login_attempt
+attempted user: nking
+user found: true
+user privileges: user
+
+2016-04-01 20:39:37
+login_attempt
+attempted user: nking
+user found: true
+user privileges: user
+
