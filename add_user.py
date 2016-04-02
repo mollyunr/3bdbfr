@@ -54,7 +54,6 @@ if arguments == 5:
         f.write('database name: ' + database_name + '\n' + '\n')
         f.close()
 
-        #update database information
         path, dirs, files = os.walk(database_name).next()
         directory_count = len(dirs)
         database_size = os.path.getsize(database_name)
