@@ -49,9 +49,9 @@ if arguments > 1:
         f = open('log.txt', 'a')
         f.write(timestamp + '\n')
         f.write(action + '\n')
-        f.write(user + '\n')
-        f.write(privileges + '\n')
-        f.write(database_name + '\n' + '\n')
+        f.write('user: ' + user + '\n')
+        f.write('privileges: ' + privileges + '\n')
+        f.write('database name: ' + database_name + '\n' + '\n')
         f.close()
 
         #update database information
