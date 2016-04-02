@@ -18,7 +18,7 @@ f = open('userdatabase.txt', 'r')
 fileLength = sum(1 for line in f)
 f.close()
 
-if fileLength > 0 and arguments == 2:
+if fileLength > 0 and arguments > 1:
     f = open('userdatabase.txt', 'r')
     temp = list(f)
     f.close()
