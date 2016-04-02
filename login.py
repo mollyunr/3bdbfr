@@ -3,7 +3,7 @@ import datetime
 import time
 
 #
-# Takes [username password] as arguments 
+# Takes [username password] as arguments
 #
 
 arguments = len(sys.argv)
@@ -15,7 +15,7 @@ privileges = 'none'
 t = time.time()
 timestamp = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M:%S')
 
-if arguments > 1:
+if arguments == 3:
     f = open('userdatabase.txt', 'r')
     fileLength = sum(1 for line in f)
     f.close()
