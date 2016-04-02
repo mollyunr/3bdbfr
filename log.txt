@@ -1,3 +1,9 @@
+2016-04-01 23:01:06
+remove_user
+user: sgibb
+privileges: admin
+database name: user_database
+
 2016-04-01 20:36:07
 login_attempt
 attempted user: nking
@@ -16,3 +22,26 @@ attempted user: nking
 user found: true
 user privileges: user
 
+2016-04-01 23:02:38
+add_user
+user: sgibb
+privileges: admin
+database name: user_database
+
+2016-04-01 23:02:41
+remove_user
+user: sgibb
+privileges: admin
+database name: user_database
+
+2016-04-01 23:02:52
+add_user
+user: sgibb
+privileges: admin
+database name: user_database
+
+2016-04-01 23:02:53
+remove_user
+user: sgibb
+privileges: admin
+database name: user_database
