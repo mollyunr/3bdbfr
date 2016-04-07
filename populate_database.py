@@ -4,7 +4,7 @@ import os
 
 #
 # Takes database name as argument
-# Note: src on lines 24/25 should be changed to correct directory of att_faces folder
+# 
 
 arguments = len(sys.argv)
 
@@ -22,8 +22,8 @@ if fileLength > 0 and arguments > 1:
 
     for index in range(0, len(temp)):
         for indexTwo in range(0, 5):
-            src = '/home/sgibb/Desktop/seniorproject/rev-2/att_faces/s' + str(1 + index) + '/' + str(1 + indexTwo) + '.pgm'
-            dest = '/home/sgibb/Desktop/seniorproject/rev-2/' + sys.argv[1] + '/' + temp[index][0]
+            src = 'att_faces/s' + str(1 + index) + '/' + str(1 + indexTwo) + '.pgm'
+            dest = sys.argv[1] + '/' + temp[index][0]
             shutil.copy2(src, dest)
 
     path, dirs, files = os.walk(sys.argv[1]).next()
