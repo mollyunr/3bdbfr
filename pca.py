@@ -5,6 +5,10 @@ import math
 import sys
 from sklearn import decomposition
 
+#
+# Takes database name as argument
+#
+
 arguments = len(sys.argv)
 
 if arguments > 1:
