@@ -6,7 +6,7 @@ import sys
 from sklearn import decomposition
 
 #
-# Takes database name as argument
+# Takes [database_name test_user_number(1-40)] as arguments
 #
 
 arguments = len(sys.argv)
