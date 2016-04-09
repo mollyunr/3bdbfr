@@ -16,7 +16,7 @@ removed = 'false'
 t = time.time()
 timestamp = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M:%S')
 
-if arguments == 4:
+if arguments == 3:
     f = open('userdatabase.txt', 'r')
     fileLength = sum(1 for line in f)
     f.close()
@@ -29,6 +29,7 @@ if arguments == 4:
         temp[index] = temp[index].split();
 
     if os.path.exists(database_name + '/' + user):
+        print 'got here'
         os.rmdir(database_name + '/' + user)
 
         for index in range(0, fileLength):
