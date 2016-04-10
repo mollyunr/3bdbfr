@@ -227,34 +227,27 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_4.setText(_translate("Form", "Remove User", None))
         self.label_12.setText(_translate("Form", "User Menu", None))
 
-    def file_len(fname):
-        with open(fname) as f:
-            for i, l in enumerate(f):
-                pass
-        return i + 1
-
     def readContextFile(self):
-        len = file_len("context.txt")
         with open("context.txt") as f:
-            for i in range(1, len):
-                lines[i] = f.readline()
-        print lines
+            lines = f.read().splitlines()
+        return lines
 
     @QtCore.pyqtSignature("on_pushButton_clicked()")
     def loginMenu(self):
         arg1 = str(self.lineEdit.text())
         arg2 = str(self.lineEdit_2.text())
         os.system("python login.py " + arg1 + ' ' + arg2)
-        self.readContextFile()
-        '''privileges = self.loginScript(arg1,arg2)
-        print privileges
-        if privileges == "admin":
-            self.stackedWidget.setCurrentIndex(1)
-        elif privileges == "user":
-		    self.stackedWidget.setCurrentIndex(2)
+        lines = self.readContextFile()
+        print lines
+        if lines[0] == "true":
+            if lines[1] == "admin":
+                self.stackedWidget.setCurrentIndex(1)
+            elif lines[1] == "user":
+		        self.stackedWidget.setCurrentIndex(2)
+            else:
+                QtGui.QMessageBox.warning(self, 'Not Found', 'Not Found')
         else:
             QtGui.QMessageBox.warning(self, 'Not Found', 'Not Found')
-        '''
 
     @QtCore.pyqtSignature("on_pushButton_2_clicked()")
     def adminmenu(self):
@@ -293,6 +286,6 @@ if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     ex = Ui_Form()
     ex.show()
-    ex.loginMenu()
+#    ex.loginMenu()
     sys.exit(app.exec_())
 
