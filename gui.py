@@ -250,14 +250,17 @@ class Ui_Form(QtGui.QDialog):
             QtGui.QMessageBox.warning(self, 'Not Found', 'Not Found')
 
     @QtCore.pyqtSignature("on_pushButton_2_clicked()")
-    def adminmenu(self):
-        '''name = str(self.lineEdit_3.text())
-        success = self.createDatabase(name);
-        if success:
+    def createDatabaseMenu(self):
+        name = str(self.lineEdit_3.text())
+        os.system("python create_database.py " + name)
+        lines = self.readContextFile()
+        print lines
+        if lines[0] == "database created":
             QtGui.QMessageBox.information(self, 'Success', 'Data Base ' + name + " created.")
         else:
             QtGui.QMessageBox.warning(self, 'Database not created', 'A database with that name already exists.')
-        '''
+        self.lineEdit_3.setText("")
+        
     @QtCore.pyqtSignature("on_pushButton_3_clicked()")
     def adminAddUsermenu(self):   
         '''user = str(self.lineEdit_4.text())
