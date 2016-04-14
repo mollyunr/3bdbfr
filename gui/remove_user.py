@@ -1,7 +1,7 @@
 import os
 from Tkinter import *
 
-class RemoveUser(Frame):
+class RemoveUserWindow(Frame):
     def remove_user(self):
         username = self.removeUserWidget_username.get()
         databaseName = self.removeUserWidget_databaseName.get()
