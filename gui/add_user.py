@@ -12,7 +12,7 @@ class AddUserWindow(Frame):
 
     def createWidgets(self):
         # add user string handling and fields/button
-        self.usernameLabel = Label(self, text = "User name: ").grid(row = 0, column = 0)
+        self.usernameLabel = Label(self, text = "Username: ").grid(row = 0, column = 0)
         addUserStringValue_username = StringVar()
         self.addUserWidget_username = Entry(self, textvariable = addUserStringValue_username)
         self.addUserWidget_username.grid(row = 0, column = 1)
