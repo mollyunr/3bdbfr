@@ -1,7 +1,6 @@
 import sys
 import datetime
 import time
-
 #
 # Takes [username password] as arguments
 #
