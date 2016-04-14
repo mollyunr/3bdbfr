@@ -2,7 +2,7 @@
 import os
 from Tkinter import *
 
-class addUser_gui(Frame):
+class AddUser(Frame):
     def add_user(self):
         username = self.addUserWidget_username.get()
         password = self.addUserWidget_password.get()
