@@ -9,7 +9,7 @@ class RemoveUserWindow(Frame):
 
     def createWidgets(self):
         # remove user string handling and fields/button
-        self.usernameLabel = Label(self, text = "User name: ").grid(row = 0, column = 0)
+        self.usernameLabel = Label(self, text = "Username: ").grid(row = 0, column = 0)
         removeUserStringValue_username = StringVar()
         self.removeUserWidget_username = Entry(self, textvariable = removeUserStringValue_username)
         self.removeUserWidget_username.grid(row = 0, column = 1)
