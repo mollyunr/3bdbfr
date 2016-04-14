@@ -41,7 +41,7 @@ f.write('user found: ' + found + '\n')
 f.write('user privileges: ' + privileges + '\n' + '\n')
 f.close()
 
-f = open('context.txt', 'w')
-f.write(found + '\n')
-f.write(privileges + '\n')
-f.close()
+if found == 'true':
+    f = open('context.txt', 'w')
+    f.write(privileges + '\n')
+    f.close()
