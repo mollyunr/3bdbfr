@@ -41,7 +41,7 @@ class Ui_Form(QtGui.QDialog):
         self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.stackedWidget = QtGui.QStackedWidget(Form)
-        self.stackedWidget.setObjectName(_fromUtf8("stackedWidget"))
+        self.stackedWidget.setObjectName(_fromUtf8("stackedWidget"))        
         self.login = QtGui.QWidget()
         self.login.setObjectName(_fromUtf8("login"))
         self.horizontalLayout = QtGui.QHBoxLayout(self.login)
