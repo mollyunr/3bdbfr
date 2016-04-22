@@ -41,7 +41,7 @@ class Ui_Form(QtGui.QDialog):
         self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.stackedWidget = QtGui.QStackedWidget(Form)
-        self.stackedWidget.setObjectName(_fromUtf8("stackedWidget"))        
+        self.stackedWidget.setObjectName(_fromUtf8("stackedWidget"))
         self.login = QtGui.QWidget()
         self.login.setObjectName(_fromUtf8("login"))
         self.horizontalLayout = QtGui.QHBoxLayout(self.login)
@@ -333,8 +333,6 @@ class Ui_Form(QtGui.QDialog):
         self.verticalLayout_13.addLayout(self.horizontalLayout_14)
         self.verticalLayout_14 = QtGui.QVBoxLayout()
         self.verticalLayout_14.setObjectName(_fromUtf8("verticalLayout_14"))
-        
-
         self.fsm = QtGui.QFileSystemModel()
         self.index = self.fsm.setRootPath("databases")
         
@@ -492,6 +490,18 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_15.setObjectName(_fromUtf8("pushButton_15"))
         self.horizontalLayout_26.addWidget(self.pushButton_15)
         self.verticalLayout_7.addLayout(self.horizontalLayout_26)
+        self.pushButton_16 = QtGui.QPushButton(self.editUserMenu)
+        font = QtGui.QFont()
+        font.setPointSize(22)
+        self.pushButton_16.setFont(font)
+        self.pushButton_16.setObjectName(_fromUtf8("pushButton_16"))
+        self.verticalLayout_7.addWidget(self.pushButton_16)
+        self.pushButton_17 = QtGui.QPushButton(self.editUserMenu)
+        font = QtGui.QFont()
+        font.setPointSize(22)
+        self.pushButton_17.setFont(font)
+        self.pushButton_17.setObjectName(_fromUtf8("pushButton_17"))
+        self.verticalLayout_7.addWidget(self.pushButton_17)
         spacerItem30 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout_7.addItem(spacerItem30)
         self.horizontalLayout_25.addLayout(self.verticalLayout_7)
@@ -528,6 +538,18 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_13.setObjectName(_fromUtf8("pushButton_13"))
         self.horizontalLayout_30.addWidget(self.pushButton_13)
         self.verticalLayout_16.addLayout(self.horizontalLayout_30)
+        self.pushButton_14 = QtGui.QPushButton(self.takePictures)
+        font = QtGui.QFont()
+        font.setPointSize(22)
+        self.pushButton_14.setFont(font)
+        self.pushButton_14.setObjectName(_fromUtf8("pushButton_14"))
+        self.verticalLayout_16.addWidget(self.pushButton_14)
+        self.pushButton_18 = QtGui.QPushButton(self.takePictures)
+        font = QtGui.QFont()
+        font.setPointSize(22)
+        self.pushButton_18.setFont(font)
+        self.pushButton_18.setObjectName(_fromUtf8("pushButton_18"))
+        self.verticalLayout_16.addWidget(self.pushButton_18)
         spacerItem35 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout_16.addItem(spacerItem35)
         self.horizontalLayout_28.addLayout(self.verticalLayout_16)
@@ -568,9 +590,13 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_11.setText(_translate("Form", "Go Back", None))
         self.pushButton_9.setText(_translate("Form", "Add Database", None))
         self.label_10.setText(_translate("Form", "Edit User", None))
-        self.pushButton_15.setText(_translate("Form", "Add Pictures", None))
+        self.pushButton_15.setText(_translate("Form", "Add/Edit Pictures", None))
+        self.pushButton_16.setText(_translate("Form", "Remove User", None))
+        self.pushButton_17.setText(_translate("Form", "Back", None))
         self.label_11.setText(_translate("Form", "Please Position Camera", None))
         self.pushButton_13.setText(_translate("Form", "Capture", None))
+        self.pushButton_14.setText(_translate("Form", "Add", None))
+        self.pushButton_18.setText(_translate("Form", "Back", None))
 
     def readContextFile(self):
         with open("context.txt") as f:
@@ -674,7 +700,7 @@ class Ui_Form(QtGui.QDialog):
     @QtCore.pyqtSignature("on_pushButton_5_clicked()")
     def takePicturesUserMenu(self): 
         os.system("python camera.py 2")
-        pixmap = QtGui.QPixmap("att_faces/s2/6.pgm")
+        pixmap = QtGui.QPixmap("test_directory/4.png")
         self.label_12.setPixmap(pixmap)
         self.label_12.show()
         self.pushButton_5.setText(_translate("3BDB-FR", "Re-Capture", None))
@@ -743,13 +769,30 @@ class Ui_Form(QtGui.QDialog):
     @QtCore.pyqtSignature("on_pushButton_16_clicked()")
     def removeUserMenu(self):
         username = str(self.users_combo.currentText())
+        print username
         dbname = str(self.dbs_combo.currentText())
-        os.system("python remove_user.py " + username + ' ' + dbname )
-        lines = self.readContextFile()
-        if lines[0] == "user removed":
-            QtGui.QMessageBox.information(self, 'Success', 'User ' + username + " removed.")
-        else:
-            QtGui.QMessageBox.warning(self, 'Error', 'User not found.')    
+        print dbname
+        if dbname == '/':
+            QtGui.QMessageBox.warning(self, 'Error', 'Please choose a database.')
+            return
+        if username == '/':
+            QtGui.QMessageBox.warning(self, 'Error', 'Please choose a user to remove.')
+            return
+        print "python remove_user.py " + username + ' databases/' + dbname 
+        os.system("python remove_user.py " + username + ' databases/' + dbname )
+        #lines = self.readContextFile()
+        #if lines[0] == "user removed":
+            #QtGui.QMessageBox.information(self, 'Success', 'User ' + username + " removed.")
+        #else:
+            #QtGui.QMessageBox.warning(self, 'Error', 'User not found.')
+
+    @QtCore.pyqtSignature("on_pushButton_17_clicked()")
+    def wrapper(self):
+        self.gobacktoMenu()
+
+    @QtCore.pyqtSignature("on_pushButton_18_clicked()")
+    def wrapper2(self):
+        self.gobacktoMenu()
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
