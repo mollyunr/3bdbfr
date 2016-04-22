@@ -2,13 +2,14 @@ import sys
 import datetime
 import time
 import os
+import shutil
 
 #
 # Takes [username database_name] as arguments
 #
 
 arguments = len(sys.argv)
-
+print arguments
 action = 'remove_user'
 user = sys.argv[1]
 database_name = sys.argv[2]
@@ -30,7 +31,7 @@ if arguments == 3:
 
     if os.path.exists(database_name + '/' + user):
         print 'got here'
-        os.rmdir(database_name + '/' + user)
+        shutil.rmtree(database_name + '/' + user)
 
         for index in range(0, fileLength):
             if temp[index][0] == user:
