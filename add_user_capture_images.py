@@ -17,7 +17,7 @@ pygame.camera.init()
 cameras = pygame.camera.list_cameras()
 print "avaiable cameras", cameras
 print "Using camera %s" % cameras[0]
-cam = pygame.camera.Camera(pygame.camera.list_cameras()[0],(100,100))
+cam = pygame.camera.Camera(pygame.camera.list_cameras()[0],(1000,800))
 
 #Make directory
 if os.path.exists(database_name):
