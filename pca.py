@@ -11,7 +11,7 @@ from sklearn import decomposition
 
 arguments = len(sys.argv)
 
-if arguments > 1:
+if arguments == 2:
     trainingFileNames = []
 
     path, dirs, files = os.walk(sys.argv[1]).next()
