@@ -7,14 +7,17 @@ import sys
 from sklearn import decomposition
 
 #
-# Takes [test_folder_name database_name] as arguments
+# Takes [test_folder_name database_name username] as arguments
 #
 
 arguments = len(sys.argv)
 
-if arguments == 3:
+if arguments == 4:
     test_folder_name = sys.argv[1]
     database_name = sys.argv[2]
+    username = sys.argv[3]
+
+    print username
 
     # face detection
     path, dirs, files = os.walk(test_folder_name).next()
@@ -42,7 +45,7 @@ if arguments == 3:
     noise_variance = float(noise_variance)
     f.close()
 
-    pca = decomposition.PCA(n_components = 0.8, copy = 'true')
+    pca = decomposition.PCA(n_components = 0.95, copy = 'true')
     pca.components_ = components
     pca.explained_variance_ = explained_variance
     pca.mean_ = mean
@@ -52,12 +55,20 @@ if arguments == 3:
     trainingFileNames = []
     fileType = '.pgm'
 
-    path, dirs, files = os.walk(database_name).next()
-    for index in range(0, len(dirs)):
-        path2, dirs2, files2 = os.walk(database_name + '/' + dirs[index]).next()
-        for index2 in range(0, len(files2)):
-            if files2[index2].find(fileType) > -1:
-                trainingFileNames.append(database_name + '/' + dirs[index] + '/' + files2[index2])
+    path, dirs, files = os.walk(database_name + '/' + username).next()
+    for index in range(0, len(files)):
+        trainingFileNames.append(database_name + '/' + username + '/' + files[index])
+
+    traininFaces = []
+
+    for index in range(0, len(trainingFileNames)):
+        f = open(trainingFileNames[index], 'rb')
+        garbage = f.readline().split()
+        image = np.fromfile(f, dtype = np.uint8)
+        traininFaces.append(image)
+        f.close()
+
+    traininFaces = np.array(traininFaces)
 
     # locate all files in testing image directory
     testingFileNames = []
@@ -66,8 +77,6 @@ if arguments == 3:
     for index in range(0, len(files)):
         if files[index].find(fileType) > -1:
             testingFileNames.append(test_folder_name + '/' + files[index])
-
-    print testingFileNames
 
     # load all training images into list with unsigned integer (8 bit) values
     testingFaces = []
@@ -82,7 +91,7 @@ if arguments == 3:
     testingFaces = np.array(testingFaces)
 
     # get eigenfaces for both testing and training data
-    trainingEigenfaces = np.load('trainingEigenfaces.npy')
+    trainingEigenfaces = pca.transform(traininFaces)
     testingEigenfaces = pca.transform(testingFaces)
 
 
