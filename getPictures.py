@@ -8,8 +8,8 @@ import StringIO
 import shutil
 from select import select
 
-SIZE = (1000,1000)
-CAM_INDEX = 1
+SIZE = (300,300)
+CAM_INDEX = 0
 
 def timer(timeout):
 	rlist, _, _ = select([sys.stdin], [], [], timeout)
@@ -33,6 +33,7 @@ def initializeScreen(cam):
 	screen = pygame.display.set_mode((width,height))
 	return screen
 
+
 def takePictures(cam, directory):
 	count = 0 
 	while count < 5:
@@ -41,7 +42,7 @@ def takePictures(cam, directory):
 		pygame.image.save(img, directory+"/"+str(count)+".png")
 		count += 1
 
-def savePictures(directory):
+def getTestPictures(directory):
 	camera = initializeCamera(CAM_INDEX)
 	camera.start()
 
@@ -50,7 +51,6 @@ def savePictures(directory):
 		os.mkdir(user_directory)
 
 	takePictures(camera, user_directory)
-	camera.stop()
 
 if __name__ == '__main__':
-    savePictures("test_db")
+    camera()

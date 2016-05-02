@@ -1,3 +1,6 @@
 *~
-context.txt
-log.txt
+*.npy
+*.txt
+*.pyc
+*.png
+*.pgm

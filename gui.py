@@ -1,16 +1,13 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'testStack.ui'
-#
-# Created: Thu Apr  7 09:57:26 2016
-#      by: PyQt4 UI code generator 4.10.4
-#
-# WARNING! All changes made in this file will be lost!
 import sys
 import os
 import datetime
 import time
+import results
+import camera
+import processImages
+import test
 from PyQt4 import QtCore, QtGui
 
 try:
@@ -31,7 +28,9 @@ class Ui_Form(QtGui.QDialog):
     def __init__(self):
         QtGui.QDialog.__init__(self)
         self.setupUi(self)
-        self.confirm = None
+        self.confirm = None	
+        self.threshold = 0.6
+        self.resultText = ""
 
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
@@ -42,6 +41,8 @@ class Ui_Form(QtGui.QDialog):
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.stackedWidget = QtGui.QStackedWidget(Form)
         self.stackedWidget.setObjectName(_fromUtf8("stackedWidget"))
+
+        ########## LOGIN #####################
         self.login = QtGui.QWidget()
         self.login.setObjectName(_fromUtf8("login"))
         self.horizontalLayout = QtGui.QHBoxLayout(self.login)
@@ -118,6 +119,9 @@ class Ui_Form(QtGui.QDialog):
         self.verticalLayout_3.addItem(spacerItem6)
         self.horizontalLayout.addLayout(self.verticalLayout_3)
         self.stackedWidget.addWidget(self.login)
+
+
+        #######  ADMIN MENU #################
         self.adminMenu = QtGui.QWidget()
         self.adminMenu.setObjectName(_fromUtf8("adminMenu"))
         self.horizontalLayout_2 = QtGui.QHBoxLayout(self.adminMenu)
@@ -178,31 +182,27 @@ class Ui_Form(QtGui.QDialog):
         font.setPointSize(22)
         self.pushButton_12.setFont(font)
         self.pushButton_12.setObjectName(_fromUtf8("pushButton_12"))
-        self.verticalLayout_9.addWidget(self.pushButton_12)
+        #self.verticalLayout_9.addWidget(self.pushButton_12)
         self.verticalLayout_4.addLayout(self.verticalLayout_9)
         spacerItem9 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout_4.addItem(spacerItem9)
         self.horizontalLayout_2.addLayout(self.verticalLayout_4)
         self.stackedWidget.addWidget(self.adminMenu)
+
+        ######## USER MENU ############
         self.userMenu = QtGui.QWidget()
         self.userMenu.setObjectName(_fromUtf8("userMenu"))
         self.horizontalLayout_3 = QtGui.QHBoxLayout(self.userMenu)
         self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
         self.verticalLayout_5 = QtGui.QVBoxLayout()
         self.verticalLayout_5.setObjectName(_fromUtf8("verticalLayout_5"))
-        self.horizontalLayout_15 = QtGui.QHBoxLayout()
-        self.horizontalLayout_15.setObjectName(_fromUtf8("horizontalLayout_15"))
-        spacerItem10 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_15.addItem(spacerItem10)
         self.label_12 = QtGui.QLabel(self.userMenu)
         font = QtGui.QFont()
         font.setPointSize(22)
         self.label_12.setFont(font)
+        self.label_12.setAlignment(QtCore.Qt.AlignCenter)
         self.label_12.setObjectName(_fromUtf8("label_12"))
-        self.horizontalLayout_15.addWidget(self.label_12)
-        spacerItem11 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_15.addItem(spacerItem11)
-        self.verticalLayout_5.addLayout(self.horizontalLayout_15)
+        self.verticalLayout_5.addWidget(self.label_12)
         self.pushButton_5 = QtGui.QPushButton(self.userMenu)
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -215,78 +215,39 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_6.setFont(font)
         self.pushButton_6.setObjectName(_fromUtf8("pushButton_6"))
         self.verticalLayout_5.addWidget(self.pushButton_6)
+        #self.verticalLayout_5.addWidget(self.pushButton_12)
         self.horizontalLayout_3.addLayout(self.verticalLayout_5)
         self.stackedWidget.addWidget(self.userMenu)
-        self.pca = QtGui.QWidget()
-        self.pca.setObjectName(_fromUtf8("pca"))
-        self.verticalLayout_11 = QtGui.QVBoxLayout(self.pca)
+
+        ####### THRESHOLD #################
+        self.threshold = QtGui.QWidget()
+        self.threshold.setObjectName(_fromUtf8("threshold"))
+        self.verticalLayout_11 = QtGui.QVBoxLayout(self.threshold)
         self.verticalLayout_11.setObjectName(_fromUtf8("verticalLayout_11"))
-        spacerItem12 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout_11.addItem(spacerItem12)
         self.verticalLayout_10 = QtGui.QVBoxLayout()
         self.verticalLayout_10.setObjectName(_fromUtf8("verticalLayout_10"))
-        self.horizontalLayout_11 = QtGui.QHBoxLayout()
-        self.horizontalLayout_11.setObjectName(_fromUtf8("horizontalLayout_11"))
-        spacerItem13 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_11.addItem(spacerItem13)
-        self.label_16 = QtGui.QLabel(self.pca)
-        self.label_16.setText(_fromUtf8(""))
-        self.label_16.setObjectName(_fromUtf8("label_16"))
-        self.horizontalLayout_11.addWidget(self.label_16)
-        spacerItem14 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_11.addItem(spacerItem14)
-        self.label_17 = QtGui.QLabel(self.pca)
-        self.label_17.setText(_fromUtf8(""))
-        self.label_17.setObjectName(_fromUtf8("label_17"))
-        self.horizontalLayout_11.addWidget(self.label_17)
-        spacerItem15 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_11.addItem(spacerItem15)
-        self.verticalLayout_10.addLayout(self.horizontalLayout_11)
-        self.horizontalLayout_22 = QtGui.QHBoxLayout()
-        self.horizontalLayout_22.setObjectName(_fromUtf8("horizontalLayout_22"))
-        spacerItem16 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_22.addItem(spacerItem16)
-        self.label_20 = QtGui.QLabel(self.pca)
-        self.label_20.setText(_fromUtf8(""))
-        self.label_20.setObjectName(_fromUtf8("label_20"))
-        self.horizontalLayout_22.addWidget(self.label_20)
-        spacerItem17 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_22.addItem(spacerItem17)
-        self.label_21 = QtGui.QLabel(self.pca)
-        self.label_21.setText(_fromUtf8(""))
-        self.label_21.setObjectName(_fromUtf8("label_21"))
-        self.horizontalLayout_22.addWidget(self.label_21)
-        spacerItem18 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_22.addItem(spacerItem18)
-        self.verticalLayout_10.addLayout(self.horizontalLayout_22)
-        self.verticalLayout_11.addLayout(self.verticalLayout_10)
-        spacerItem19 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout_11.addItem(spacerItem19)
-        self.horizontalLayout_19 = QtGui.QHBoxLayout()
-        self.horizontalLayout_19.setObjectName(_fromUtf8("horizontalLayout_19"))
-        self.verticalLayout_12 = QtGui.QVBoxLayout()
-        self.verticalLayout_12.setObjectName(_fromUtf8("verticalLayout_12"))
-        self.horizontalLayout_20 = QtGui.QHBoxLayout()
-        self.horizontalLayout_20.setObjectName(_fromUtf8("horizontalLayout_20"))
-        self.label_18 = QtGui.QLabel(self.pca)
-        self.label_18.setObjectName(_fromUtf8("label_18"))
-        self.horizontalLayout_20.addWidget(self.label_18)
-        self.lineEdit_12 = QtGui.QLineEdit(self.pca)
-        self.lineEdit_12.setObjectName(_fromUtf8("lineEdit_12"))
-        self.horizontalLayout_20.addWidget(self.lineEdit_12)
-        self.label_19 = QtGui.QLabel(self.pca)
-        self.label_19.setObjectName(_fromUtf8("label_19"))
-        self.horizontalLayout_20.addWidget(self.label_19)
-        self.lineEdit_13 = QtGui.QLineEdit(self.pca)
-        self.lineEdit_13.setObjectName(_fromUtf8("lineEdit_13"))
-        self.horizontalLayout_20.addWidget(self.lineEdit_13)
-        self.verticalLayout_12.addLayout(self.horizontalLayout_20)
-        self.pushButton_10 = QtGui.QPushButton(self.pca)
+        spacerItem10 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout_10.addItem(spacerItem10)
+        self.label_13 = QtGui.QLabel(self.threshold)
+        self.label_13.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_13.setObjectName(_fromUtf8("label_13"))
+        self.verticalLayout_10.addWidget(self.label_13)
+        self.horizontalSlider = QtGui.QSlider(self.threshold)
+        self.horizontalSlider.setMaximum(20000)
+        self.horizontalSlider.setSingleStep(250)
+        self.horizontalSlider.setProperty("value", 5000)
+        self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
+        self.horizontalSlider.setObjectName(_fromUtf8("horizontalSlider"))
+        self.verticalLayout_10.addWidget(self.horizontalSlider)
+        self.pushButton_10 = QtGui.QPushButton(self.threshold)
         self.pushButton_10.setObjectName(_fromUtf8("pushButton_10"))
-        self.verticalLayout_12.addWidget(self.pushButton_10)
-        self.horizontalLayout_19.addLayout(self.verticalLayout_12)
-        self.verticalLayout_11.addLayout(self.horizontalLayout_19)
-        self.stackedWidget.addWidget(self.pca)
+        self.verticalLayout_10.addWidget(self.pushButton_10)
+        spacerItem11 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout_10.addItem(spacerItem11)
+        self.verticalLayout_11.addLayout(self.verticalLayout_10)
+        self.stackedWidget.addWidget(self.threshold)
+
+        ####### ADD USER ##################
         self.addUserMenu = QtGui.QWidget()
         self.addUserMenu.setObjectName(_fromUtf8("addUserMenu"))
         self.horizontalLayout_9 = QtGui.QHBoxLayout(self.addUserMenu)
@@ -390,6 +351,8 @@ class Ui_Form(QtGui.QDialog):
         self.verticalLayout_13.addItem(spacerItem22)
         self.horizontalLayout_9.addLayout(self.verticalLayout_13)
         self.stackedWidget.addWidget(self.addUserMenu)
+
+        ######### ADD DATABASE ##########################
         self.addDBMenu = QtGui.QWidget()
         self.addDBMenu.setObjectName(_fromUtf8("addDBMenu"))
         self.horizontalLayout_17 = QtGui.QHBoxLayout(self.addDBMenu)
@@ -448,6 +411,8 @@ class Ui_Form(QtGui.QDialog):
         self.verticalLayout_15.addItem(spacerItem27)
         self.horizontalLayout_17.addLayout(self.verticalLayout_15)
         self.stackedWidget.addWidget(self.addDBMenu)
+
+        ########### EDIT USER ###########################
         self.editUserMenu = QtGui.QWidget()
         self.editUserMenu.setObjectName(_fromUtf8("editUserMenu"))
         self.horizontalLayout_25 = QtGui.QHBoxLayout(self.editUserMenu)
@@ -456,8 +421,8 @@ class Ui_Form(QtGui.QDialog):
         self.verticalLayout_7.setObjectName(_fromUtf8("verticalLayout_7"))
         self.horizontalLayout_27 = QtGui.QHBoxLayout()
         self.horizontalLayout_27.setObjectName(_fromUtf8("horizontalLayout_27"))
-        spacerItem28 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_27.addItem(spacerItem28)
+        spacerItem26 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_27.addItem(spacerItem26)
         self.label_10 = QtGui.QLabel(self.editUserMenu)
         font = QtGui.QFont()
         font.setPointSize(11)
@@ -466,11 +431,11 @@ class Ui_Form(QtGui.QDialog):
         self.label_10.setFont(font)
         self.label_10.setObjectName(_fromUtf8("label_10"))
         self.horizontalLayout_27.addWidget(self.label_10)
-        spacerItem29 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_27.addItem(spacerItem29)
+        spacerItem27 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_27.addItem(spacerItem27)
         self.verticalLayout_7.addLayout(self.horizontalLayout_27)
         self.dbs_combo = QtGui.QComboBox(self.editUserMenu)
-        
+
         self.dbs_combo.setModel(self.fsm)
         self.dbs_combo.setRootModelIndex(self.index)
 
@@ -484,8 +449,6 @@ class Ui_Form(QtGui.QDialog):
         font.setPointSize(22)
         self.users_combo.setFont(font)
         self.users_combo.setObjectName(_fromUtf8("users_combo"))
-        self.users_combo.setStyleSheet("QComboBox { combobox-popup: 0; }")
-        self.users_combo.setMaxVisibleItems(5)
         self.verticalLayout_7.addWidget(self.users_combo)
         self.horizontalLayout_26 = QtGui.QHBoxLayout()
         self.horizontalLayout_26.setObjectName(_fromUtf8("horizontalLayout_26"))
@@ -508,58 +471,44 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_17.setFont(font)
         self.pushButton_17.setObjectName(_fromUtf8("pushButton_17"))
         self.verticalLayout_7.addWidget(self.pushButton_17)
-        spacerItem30 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout_7.addItem(spacerItem30)
+        spacerItem28 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout_7.addItem(spacerItem28)
         self.horizontalLayout_25.addLayout(self.verticalLayout_7)
         self.stackedWidget.addWidget(self.editUserMenu)
+
+        ############# ADD PICTURES #################
         self.takePictures = QtGui.QWidget()
         self.takePictures.setObjectName(_fromUtf8("takePictures"))
         self.horizontalLayout_28 = QtGui.QHBoxLayout(self.takePictures)
         self.horizontalLayout_28.setObjectName(_fromUtf8("horizontalLayout_28"))
         self.verticalLayout_16 = QtGui.QVBoxLayout()
         self.verticalLayout_16.setObjectName(_fromUtf8("verticalLayout_16"))
-        spacerItem31 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout_16.addItem(spacerItem31)
         self.horizontalLayout_29 = QtGui.QHBoxLayout()
         self.horizontalLayout_29.setObjectName(_fromUtf8("horizontalLayout_29"))
-        spacerItem32 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_29.addItem(spacerItem32)
         self.label_11 = QtGui.QLabel(self.takePictures)
         font = QtGui.QFont()
         font.setPointSize(22)
         self.label_11.setFont(font)
+        self.label_11.setAlignment(QtCore.Qt.AlignCenter)
         self.label_11.setObjectName(_fromUtf8("label_11"))
         self.horizontalLayout_29.addWidget(self.label_11)
-        spacerItem33 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_29.addItem(spacerItem33)
         self.verticalLayout_16.addLayout(self.horizontalLayout_29)
-        spacerItem34 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout_16.addItem(spacerItem34)
-        self.horizontalLayout_30 = QtGui.QHBoxLayout()
-        self.horizontalLayout_30.setObjectName(_fromUtf8("horizontalLayout_30"))
         self.pushButton_13 = QtGui.QPushButton(self.takePictures)
         font = QtGui.QFont()
         font.setPointSize(22)
         self.pushButton_13.setFont(font)
         self.pushButton_13.setObjectName(_fromUtf8("pushButton_13"))
-        self.horizontalLayout_30.addWidget(self.pushButton_13)
-        self.verticalLayout_16.addLayout(self.horizontalLayout_30)
-        self.pushButton_14 = QtGui.QPushButton(self.takePictures)
-        font = QtGui.QFont()
-        font.setPointSize(22)
-        self.pushButton_14.setFont(font)
-        self.pushButton_14.setObjectName(_fromUtf8("pushButton_14"))
-        self.verticalLayout_16.addWidget(self.pushButton_14)
+        self.verticalLayout_16.addWidget(self.pushButton_13)
         self.pushButton_18 = QtGui.QPushButton(self.takePictures)
         font = QtGui.QFont()
         font.setPointSize(22)
         self.pushButton_18.setFont(font)
         self.pushButton_18.setObjectName(_fromUtf8("pushButton_18"))
         self.verticalLayout_16.addWidget(self.pushButton_18)
-        spacerItem35 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout_16.addItem(spacerItem35)
         self.horizontalLayout_28.addLayout(self.verticalLayout_16)
         self.stackedWidget.addWidget(self.takePictures)
+
+
         self.verticalLayout.addWidget(self.stackedWidget)
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
@@ -576,14 +525,13 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_2.setText(_translate("Form", "Add Database", None))
         self.pushButton_3.setText(_translate("Form", "Add User", None))
         self.pushButton_4.setText(_translate("Form", "Edit User", None))
-        self.pushButton_19.setText(_translate("Form", "Recompile Database", None))
+        self.pushButton_19.setText(_translate("Form", "Adjust Threshold", None))
         self.pushButton_12.setText(_translate("Form", "Log Out", None))
-        self.label_12.setText(_translate("Form", "Please Position Camera", None))
+        self.label_12.setText(_translate("Form", "Get ready and then press capture", None))
         self.pushButton_5.setText(_translate("Form", "Capture", None))
         self.pushButton_6.setText(_translate("Form", "Done", None))
-        self.label_18.setText(_translate("Form", "DB Name", None))
-        self.label_19.setText(_translate("Form", "User (1-40)", None))
-        self.pushButton_10.setText(_translate("Form", "Test", None))
+        self.label_13.setText(_translate("Form", "Adjust Threshold", None))
+        self.pushButton_10.setText(_translate("Form", "Set", None))
         self.label_5.setText(_translate("Form", "Username", None))
         self.label_6.setText(_translate("Form", "Password", None))
         self.label_7.setText(_translate("Form", "Re-enter Password", None))
@@ -597,13 +545,20 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_11.setText(_translate("Form", "Go Back", None))
         self.pushButton_9.setText(_translate("Form", "Add Database", None))
         self.label_10.setText(_translate("Form", "Edit User", None))
-        self.pushButton_15.setText(_translate("Form", "Add/Edit Pictures", None))
+        self.pushButton_15.setText(_translate("Form", "Add Pictures", None))
         self.pushButton_16.setText(_translate("Form", "Remove User", None))
         self.pushButton_17.setText(_translate("Form", "Back", None))
-        self.label_11.setText(_translate("Form", "Please Position Camera", None))
+        self.label_11.setText(_translate("Form", "Get ready, then press Capture", None))
         self.pushButton_13.setText(_translate("Form", "Capture", None))
-        self.pushButton_14.setText(_translate("Form", "Add", None))
         self.pushButton_18.setText(_translate("Form", "Back", None))
+
+    def reset(self):
+        self.pushButton_5.setEnabled(True)
+        self.pushButton_6.setEnabled(False)
+        self.label_12.setText(_translate("Form", "Get ready and then press capture", None))
+        self.pushButton_5.setText(_translate("3BDB-FR", "Capture", None))
+        self.label_11.setText(_translate("Form", "Get ready, then press Capture", None))
+        self.pushButton_13.setText(_translate("3BDB-FR", "Capture", None))
 
     def readContextFile(self):
         with open("context.txt") as f:
@@ -633,8 +588,10 @@ class Ui_Form(QtGui.QDialog):
             QtGui.QMessageBox.warning(self, 'Error', 'Username/password incorrect.')
         elif lines[0] == "admin":
             self.stackedWidget.setCurrentIndex(1)
+            self.verticalLayout_9.addWidget(self.pushButton_12)
         elif lines[0] == "user":
             self.stackedWidget.setCurrentIndex(2)
+            self.verticalLayout_5.addWidget(self.pushButton_12)
         else:
             QtGui.QMessageBox.warning(self, 'Not Found', 'Not Found')
 
@@ -705,20 +662,28 @@ class Ui_Form(QtGui.QDialog):
             QtGui.QMessageBox.warning(self, 'Error', 'User not found.')
      
     @QtCore.pyqtSignature("on_pushButton_5_clicked()")
-    def takePicturesUserMenu(self): 
-        os.system("python camera.py 2")
-        pixmap = QtGui.QPixmap("test_directory/4.png")
-        self.label_12.setPixmap(pixmap)
+    def takePicturesUserMenu(self):
+        camera.savePictures("test/testUser")
+        pixmap = QtGui.QPixmap("test/testUser/4.png")
+        width = self.label_12.width()
+        height = self.label_12.height()
+        self.label_12.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))
         self.label_12.show()
         self.pushButton_5.setText(_translate("3BDB-FR", "Re-Capture", None))
+        self.pushButton_6.setEnabled(True)
 
     @QtCore.pyqtSignature("on_pushButton_6_clicked()")
-    def doneWithUserMenu(self):
-        f = open('context.txt','w')
-        f.write('')
-        self.stackedWidget.setCurrentIndex(0)
-        self.lineEdit.setText("")
-        self.lineEdit_2.setText("")
+    def doneCapturingPictures(self):
+        self.pushButton_5.setEnabled(False)
+        self.pushButton_6.setEnabled(False)
+        username = str(self.lineEdit.text())
+        test.testPCA("test/testUser", "databases/user_database", username)
+        resultText = results.getResults(self.threshold);
+        if resultText == "pass":
+            resultText = "Welcome " + username + '!'
+        else:
+            resultText = "Verification of indentiy was not met.\n An administrator will be notified."
+        self.label_12.setText(_translate("Form", resultText, None))
 
     @QtCore.pyqtSignature("on_pushButton_7_clicked()")
     def gobacktoMenu(self):
@@ -735,27 +700,14 @@ class Ui_Form(QtGui.QDialog):
         self.lineEdit_10.setText("")
 
     @QtCore.pyqtSignature("on_pushButton_10_clicked()")
-    def testMenu(self):
-        dbname = str(self.lineEdit_12.text())
-        number = str(self.lineEdit_13.text())
-        os.system("python test.py " + dbname + ' ' + number )
-        with open("fr_results.txt") as f:
-            lines = f.read().splitlines()
-        file1 = lines[2]
-        file2 = lines[3]
-        pixmap1 = QtGui.QPixmap("att_faces/" + file1)
-        pixmap2 = QtGui.QPixmap(dbname + '/' + file2)
-        self.label_16.setPixmap(pixmap1)
-        self.label_16.show()
-        self.label_17.setPixmap(pixmap2)
-        self.label_17.show()
-        self.label_20.setText("Query")
-        self.label_21.setText("Match")
+    def setThreshold(self):
+        print self.horizontalSlider.tickPosition()
 
     @QtCore.pyqtSignature("on_pushButton_12_clicked()")
-    def adminLogout(self):
+    def logout(self):
         f = open('context.txt', 'w')
         f.write('')
+        self.reset()
         self.stackedWidget.setCurrentIndex(0)
         self.lineEdit.setText('')
         self.lineEdit_2.setText('')
@@ -769,9 +721,12 @@ class Ui_Form(QtGui.QDialog):
         print "Take pictures"
         dbname = str(self.dbs_combo.currentText())
         username = str(self.users_combo.currentText())
-        os.system("python camera.py 1 " + "databases/" + dbname + '/' + username )
+        print "databases/" + dbname + '/' + username
+        camera.savePictures("databases/" + dbname + '/' + username )
         pixmap = QtGui.QPixmap("databases/" + dbname + '/' + username + '/4.png')
-        self.label_11.setPixmap(pixmap)
+        width = self.label_11.width()
+        height = self.label_11.height()
+        self.label_11.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))
         self.label_11.show()
         self.pushButton_13.setText(_translate("3BDB-FR", "Re-Capture", None))
 
@@ -801,7 +756,22 @@ class Ui_Form(QtGui.QDialog):
 
     @QtCore.pyqtSignature("on_pushButton_18_clicked()")
     def wrapper2(self):
+        dbname = str(self.dbs_combo.currentText())
+        username = str(self.users_combo.currentText())
+        processImages.crop("databases/" + dbname + '/' + username )
+        self.reset()
         self.gobacktoMenu()
+
+    @QtCore.pyqtSignature("on_pushButton_19_clicked()")
+    def gotoThreshold(self):
+        self.stackedWidget.setCurrentIndex(3)
+
+class TaskThread(QtCore.QThread):
+    notifyProgress = QtCore.pyqtSignal(int)
+    def run(self):
+        for i in range(101):
+            self.notifyProgress.emit(i)
+            time.sleep(0.1)
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)

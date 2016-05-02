@@ -9,13 +9,7 @@ from sklearn import decomposition
 #
 # Takes [test_folder_name database_name username] as arguments
 #
-
-arguments = len(sys.argv)
-
-if arguments == 4:
-    test_folder_name = sys.argv[1]
-    database_name = sys.argv[2]
-    username = sys.argv[3]
+def testPCA(test_folder_name, database_name, username):
 
     print username
 
@@ -147,3 +141,6 @@ if arguments == 4:
             f.write('\n')
 
         f.close()
+
+if __name__ == '__main__':
+    testPCA(sys.argv[1],sys.argv[2],sys.argv[3])

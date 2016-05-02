@@ -5,12 +5,11 @@ import os
 import errno
 import time
 
-
 pygame.camera.init()
 cameras = pygame.camera.list_cameras()
 print "avaiable cameras", cameras
-print "Using camera %s" % cameras[0]
-cam = pygame.camera.Camera(pygame.camera.list_cameras()[0],(1000,1000))
+print "Using camera %s" % cameras[1]
+cam = pygame.camera.Camera(pygame.camera.list_cameras()[1],(1000,1000))
 
 #Make directory
 if not os.path.exists("test_photos"):
@@ -18,6 +17,11 @@ if not os.path.exists("test_photos"):
 
 raw_input("Waiting for button click...")
 cam.start()
+image = cam.get_image()
+image = cam.get_image()
+image = cam.get_image()
+image = cam.get_image()
+image = cam.get_image()
 
 image = cam.get_image()
 pygame.image.save(image, "test_photos/photo1.png")
@@ -37,6 +41,25 @@ time.sleep(0.5)
 
 image = cam.get_image()
 pygame.image.save(image, "test_photos/photo5.png")
+time.sleep(0.5)
+image = cam.get_image()
+pygame.image.save(image, "test_photos/photo6.png")
+time.sleep(0.5)
+
+image = cam.get_image()
+pygame.image.save(image, "test_photos/photo7.png")
+time.sleep(0.5)
+
+image = cam.get_image()
+pygame.image.save(image, "test_photos/photo8.png")
+time.sleep(0.5)
+
+image = cam.get_image()
+pygame.image.save(image, "test_photos/photo9.png")
+time.sleep(0.5)
+
+image = cam.get_image()
+pygame.image.save(image, "test_photos/photo10.png")
 time.sleep(0.5)
 
 if( image != 0 ):
