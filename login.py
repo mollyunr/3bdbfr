@@ -2,45 +2,42 @@ import sys
 import datetime
 import time
 #
-# Takes [username password] as arguments
+# Takes [database username password] as arguments
 #
 
-arguments = len(sys.argv)
+def attemptLogin(database, attempted_user, password):
+    action = 'login_attempt'
+    found = 'false'
+    privileges = 'none'
+    t = time.time()
+    timestamp = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M:%S')
 
-action = 'login_attempt'
-attempted_user = sys.argv[1]
-found = 'false'
-privileges = 'none'
-t = time.time()
-timestamp = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M:%S')
+    try:
+        f = open("databases/" + database + '/' + attempted_user + "/userInfo.txt", 'r')
+    except IOError:
+        return "Not Found."
 
-if arguments == 3:
-    f = open('userdatabase.txt', 'r')
-    fileLength = sum(1 for line in f)
-    f.close()
-
-    f = open('userdatabase.txt', 'r')
     temp = list(f)
     f.close()
-
-    for index in range(0, fileLength):
-        temp[index] = temp[index].split();
-
     for index in range(0, len(temp)):
-        if sys.argv[1] == temp[index][0]:
-            if sys.argv[2] == temp[index][1]:
-                found = 'true'
-                privileges = temp[index][2]
+        temp[index] = temp[index].strip('\n');
 
-f = open('log.txt', 'a')
-f.write(timestamp + '\n')
-f.write(action + '\n')
-f.write('attempted user: ' + attempted_user + '\n')
-f.write('user found: ' + found + '\n')
-f.write('user privileges: ' + privileges + '\n' + '\n')
-f.close()
+    if password == temp[1]:
+        found = "true"
+        privileges = temp[2]
+        
+    else:
+        return "Password is incorrect."
 
-if found == 'true':
-    f = open('context.txt', 'w')
-    f.write(privileges + '\n')
+    f = open('log.txt', 'a')
+    f.write(timestamp + '\n')
+    f.write(action + '\n')
+    f.write('attempted user: ' + attempted_user + '\n')
+    f.write('user found: ' + found + '\n')
+    f.write('user privileges: ' + privileges + '\n' + '\n')
     f.close()
+    
+    return privileges
+
+if __name__ == '__main__':
+    attemptLogin(sys.argv[1],sys.argv[2],sys.argv[3])

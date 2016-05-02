@@ -550,7 +550,7 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_11.setText(_translate("Form", "Go Back", None))
         self.pushButton_9.setText(_translate("Form", "Add Database", None))
         self.label_10.setText(_translate("Form", "Edit User", None))
-        self.pushButton_15.setText(_translate("Form", "Add Pictures", None))
+        self.pushButton_15.setText(_translate("Form", "Change Pictures", None))
         self.pushButton_16.setText(_translate("Form", "Remove User", None))
         self.pushButton_17.setText(_translate("Form", "Back", None))
         self.label_11.setText(_translate("Form", "Get ready, then press Capture", None))
@@ -594,20 +594,12 @@ class Ui_Form(QtGui.QDialog):
         elif attempt == "Password is incorrect.":
             QtGui.QMessageBox.warning(self, 'Error', attempt)
             return
-        '''
-        lines = self.readContextFile()
-        print lines
-        if lines == []:
-            QtGui.QMessageBox.warning(self, 'Error', 'Username/password incorrect.')
-        elif lines[0] == "admin":
+        elif attempt == "admin":
             self.stackedWidget.setCurrentIndex(1)
             self.verticalLayout_9.addWidget(self.pushButton_12)
-        elif lines[0] == "user":
+        elif attempt == "user":
             self.stackedWidget.setCurrentIndex(2)
             self.verticalLayout_5.addWidget(self.pushButton_12)
-        else:
-            QtGui.QMessageBox.warning(self, 'Not Found', 'Not Found')
-        '''
 
     @QtCore.pyqtSignature("on_pushButton_2_clicked()")
     def gotoAddDBMenu(self):

@@ -7,46 +7,35 @@ import os
 # Takes [username password privileges database_name] as arguments
 #
 
+def findUser(username, database_name):
+    if os.path.exists("databases/" + database_name + '/' + username):
+        return True
+    else:
+        return False
 
 def add(username, password, privileges, database_name):
     action = 'add_user'
-    created = 'false'
+    created = False
     t = time.time()
     timestamp = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M:%S')
 
-    f = open('userdatabase.txt', 'r')
-    fileLength = sum(1 for line in f)
-    f.close()
-
-    f = open('userdatabase.txt', 'r')
-    temp = list(f)
-    f.close()
-
-    for index in range(0, fileLength):
-        temp[index] = temp[index].split();
-
-    if not os.path.exists("databases/" + database_name + '/' + username):
+    if not findUser(username, database_name):
         os.mkdir("databases/" + database_name + '/' + username)
-        created = True
-
-        new_user = []
-        new_user.append(username)
-        new_user.append(password)
-        new_user.append(privileges)
-
-        temp.append(new_user)
-
-        f = open('userdatabase.txt', 'w')
-        for index in range(0, len(temp)):
-            f.write(temp[index][0] + ' ' + temp[index][1] + ' ' + temp[index][2] + '\n')
+        f = open("databases/" + database_name + '/' + username + '/' + "userInfo.txt", 'w')
+        f.write(username + '\n' + password + '\n' + privileges)
         f.close()
+
+        created = True
 
         f = open('log.txt', 'a')
         f.write(timestamp + '\n')
         f.write(action + '\n')
-        f.write('user: ' +username + '\n')
+        f.write('user: ' + username + '\n')
         f.write('privileges: ' + privileges + '\n')
         f.write('database name: ' + database_name + '\n' + '\n')
         f.close()
 
     return created
+
+if __name__ == '__main__':
+    add(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4])
