@@ -17,6 +17,9 @@ def create(databaseName):
 
     if not os.path.exists(path):
         os.mkdir(path)
+        os.mkdir(path + '/admin')
+        f = open(path + '/admin/userInfo.txt', 'w')
+        f.write("admin\nadmin\nadmin\n")
         log = 'true'
 
     if log == 'true':

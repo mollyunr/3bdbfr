@@ -357,7 +357,7 @@ class Ui_Form(QtGui.QDialog):
         self.horizontalLayout_9.addLayout(self.verticalLayout_13)
         self.stackedWidget.addWidget(self.addUserMenu)
 
-        ######### ADD DATABASE ##########################
+        ######### EDIT DATABASE ##########################
         self.addDBMenu = QtGui.QWidget()
         self.addDBMenu.setObjectName(_fromUtf8("addDBMenu"))
         self.horizontalLayout_17 = QtGui.QHBoxLayout(self.addDBMenu)
@@ -366,22 +366,21 @@ class Ui_Form(QtGui.QDialog):
         self.verticalLayout_15.setObjectName(_fromUtf8("verticalLayout_15"))
         self.horizontalLayout_18 = QtGui.QHBoxLayout()
         self.horizontalLayout_18.setObjectName(_fromUtf8("horizontalLayout_18"))
-        spacerItem23 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_18.addItem(spacerItem23)
+        spacerItem15 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_18.addItem(spacerItem15)
         self.label_9 = QtGui.QLabel(self.addDBMenu)
         font = QtGui.QFont()
         font.setBold(True)
         font.setWeight(75)
+        font.setPointSize(22)
         self.label_9.setFont(font)
         self.label_9.setObjectName(_fromUtf8("label_9"))
         self.horizontalLayout_18.addWidget(self.label_9)
-        spacerItem24 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_18.addItem(spacerItem24)
+        spacerItem16 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout_18.addItem(spacerItem16)
         self.verticalLayout_15.addLayout(self.horizontalLayout_18)
         self.horizontalLayout_23 = QtGui.QHBoxLayout()
         self.horizontalLayout_23.setObjectName(_fromUtf8("horizontalLayout_23"))
-        spacerItem25 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_23.addItem(spacerItem25)
         self.label_8 = QtGui.QLabel(self.addDBMenu)
         font = QtGui.QFont()
         font.setPointSize(22)
@@ -394,9 +393,40 @@ class Ui_Form(QtGui.QDialog):
         self.lineEdit_6.setFont(font)
         self.lineEdit_6.setObjectName(_fromUtf8("lineEdit_6"))
         self.horizontalLayout_23.addWidget(self.lineEdit_6)
-        spacerItem26 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout_23.addItem(spacerItem26)
+        self.pushButton_9 = QtGui.QPushButton(self.addDBMenu)
+        font = QtGui.QFont()
+        font.setPointSize(22)
+        self.pushButton_9.setFont(font)
+        self.pushButton_9.setObjectName(_fromUtf8("pushButton_9"))
+        self.horizontalLayout_23.addWidget(self.pushButton_9)
         self.verticalLayout_15.addLayout(self.horizontalLayout_23)
+        spacerItem17 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout_15.addItem(spacerItem17)
+        self.horizontalLayout_11 = QtGui.QHBoxLayout()
+        self.horizontalLayout_11.setObjectName(_fromUtf8("horizontalLayout_11"))
+        self.label_14 = QtGui.QLabel(self.addDBMenu)
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setWeight(75)
+        font.setPointSize(22)
+        self.label_14.setFont(font)
+        self.label_14.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_14.setObjectName(_fromUtf8("label_14"))
+        self.horizontalLayout_11.addWidget(self.label_14)
+        self.verticalLayout_15.addLayout(self.horizontalLayout_11)
+        self.horizontalLayout_15 = QtGui.QHBoxLayout()
+        self.horizontalLayout_15.setObjectName(_fromUtf8("horizontalLayout_15"))
+
+        self.comboBox_2 = QtGui.QComboBox(self.addDBMenu)
+        self.comboBox_2.setModel(self.fsm)
+        self.comboBox_2.setRootModelIndex(self.index)
+        font = QtGui.QFont()
+        font.setPointSize(22)
+        self.comboBox_2.setFont(font)
+        self.comboBox_2.setObjectName(_fromUtf8("comboBox_2"))
+        self.horizontalLayout_15.addWidget(self.comboBox_2)
+
+        self.verticalLayout_15.addLayout(self.horizontalLayout_15)
         self.horizontalLayout_21 = QtGui.QHBoxLayout()
         self.horizontalLayout_21.setObjectName(_fromUtf8("horizontalLayout_21"))
         self.pushButton_11 = QtGui.QPushButton(self.addDBMenu)
@@ -405,15 +435,9 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_11.setFont(font)
         self.pushButton_11.setObjectName(_fromUtf8("pushButton_11"))
         self.horizontalLayout_21.addWidget(self.pushButton_11)
-        self.pushButton_9 = QtGui.QPushButton(self.addDBMenu)
-        font = QtGui.QFont()
-        font.setPointSize(22)
-        self.pushButton_9.setFont(font)
-        self.pushButton_9.setObjectName(_fromUtf8("pushButton_9"))
-        self.horizontalLayout_21.addWidget(self.pushButton_9)
         self.verticalLayout_15.addLayout(self.horizontalLayout_21)
-        spacerItem27 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout_15.addItem(spacerItem27)
+        spacerItem18 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout_15.addItem(spacerItem18)
         self.horizontalLayout_17.addLayout(self.verticalLayout_15)
         self.stackedWidget.addWidget(self.addDBMenu)
 
@@ -527,7 +551,7 @@ class Ui_Form(QtGui.QDialog):
         self.label_3.setText(_translate("Form", "Password", None))
         self.pushButton.setText(_translate("Form", "Login", None))
         self.label_4.setText(_translate("Form", "Administrator Options", None))
-        self.pushButton_2.setText(_translate("Form", "Add Database", None))
+        self.pushButton_2.setText(_translate("Form", "Edit Databases", None))
         self.pushButton_3.setText(_translate("Form", "Add User", None))
         self.pushButton_4.setText(_translate("Form", "Edit User", None))
         self.pushButton_19.setText(_translate("Form", "Adjust Threshold", None))
@@ -547,8 +571,9 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_8.setText(_translate("Form", "Add New User", None))
         self.label_9.setText(_translate("Form", "Add Database", None))
         self.label_8.setText(_translate("Form", "Database Name:", None))
-        self.pushButton_11.setText(_translate("Form", "Go Back", None))
         self.pushButton_9.setText(_translate("Form", "Add Database", None))
+        self.label_14.setText(_translate("Form", "Set Current Database", None))
+        self.pushButton_11.setText(_translate("Form", "Done", None))
         self.label_10.setText(_translate("Form", "Edit User", None))
         self.pushButton_15.setText(_translate("Form", "Change Pictures", None))
         self.pushButton_16.setText(_translate("Form", "Remove User", None))
@@ -611,6 +636,7 @@ class Ui_Form(QtGui.QDialog):
         name = str(self.lineEdit_6.text())
         if len(name) < 1:
             QtGui.QMessageBox.warning(self, 'Database not created', 'Database must contain at least 1 character')
+            return
 
         # create database
         success = create_database.create(name)
@@ -624,6 +650,9 @@ class Ui_Form(QtGui.QDialog):
         
     @QtCore.pyqtSignature("on_pushButton_11_clicked()")
     def gobacktoAdminMenu(self):
+        # change selected database
+        self.currentDatabase = str(self.comboBox_2.currentText()).strip('/')
+        print self.currentDatabase        
         self.stackedWidget.setCurrentIndex(1)
 
     @QtCore.pyqtSignature("on_pushButton_3_clicked()")
@@ -757,9 +786,14 @@ class Ui_Form(QtGui.QDialog):
             QtGui.QMessageBox.warning(self, 'Error', 'Please choose a user to remove.')
             return
         
-        success = remove_user.remove(username, dbname)
-        if success == True:
-            QtGui.QMessageBox.information(self, 'Success', 'User ' + username + " removed.")
+        if add_user.findUser(username, dbname):
+            reply = QtGui.QMessageBox.question(self,"Are you sure?", "Are you sure you want to remove " + username + '?', QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+            if reply == QtGui.QMessageBox.Yes:
+                success = remove_user.remove(username, dbname)
+                if success == True:
+                    QtGui.QMessageBox.information(self, 'Success', 'User ' + username + " removed.")
+                else:
+                    QtGui.QMessageBox.warning(self, 'Error', 'User not found.')
         else:
             QtGui.QMessageBox.warning(self, 'Error', 'User not found.')
 
