@@ -9,6 +9,8 @@ import camera
 import processImages
 import create_database
 import add_user
+import remove_user
+import login
 import test
 from PyQt4 import QtCore, QtGui
 
@@ -33,6 +35,7 @@ class Ui_Form(QtGui.QDialog):
         self.confirm = None	
         self.threshold = 0.6
         self.resultText = ""
+        self.currentDatabase = "user_database"
 
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
@@ -578,12 +581,20 @@ class Ui_Form(QtGui.QDialog):
 
     @QtCore.pyqtSignature("on_pushButton_clicked()")
     def loginMenu(self):
-        arg1 = str(self.lineEdit.text())
-        arg2 = str(self.lineEdit_2.text())
-        if arg1 == '' or arg2 == '':
+        username = str(self.lineEdit.text())
+        password = str(self.lineEdit_2.text())
+        if username == '' or password == '':
             QtGui.QMessageBox.warning(self, 'Error', 'Please enter a username & password.')
             return;
-        os.system("python login.py " + arg1 + ' ' + arg2)
+
+        attempt = login.attemptLogin(self.currentDatabase, username, password)
+        if attempt == "Not Found.":
+            QtGui.QMessageBox.warning(self, 'Error', attempt)
+            return
+        elif attempt == "Password is incorrect.":
+            QtGui.QMessageBox.warning(self, 'Error', attempt)
+            return
+        '''
         lines = self.readContextFile()
         print lines
         if lines == []:
@@ -596,6 +607,7 @@ class Ui_Form(QtGui.QDialog):
             self.verticalLayout_5.addWidget(self.pushButton_12)
         else:
             QtGui.QMessageBox.warning(self, 'Not Found', 'Not Found')
+        '''
 
     @QtCore.pyqtSignature("on_pushButton_2_clicked()")
     def gotoAddDBMenu(self):
@@ -603,12 +615,19 @@ class Ui_Form(QtGui.QDialog):
 
     @QtCore.pyqtSignature("on_pushButton_9_clicked()")
     def createDatabaseMenu(self):
+        # check if valid db name
         name = str(self.lineEdit_6.text())
+        if len(name) < 1:
+            QtGui.QMessageBox.warning(self, 'Database not created', 'Database must contain at least 1 character')
+
+        # create database
         success = create_database.create(name)
         if success == True:
             QtGui.QMessageBox.information(self, 'Success', 'Data Base ' + name + " created.")
         else:
             QtGui.QMessageBox.warning(self, 'Database not created', 'A database with that name already exists.')
+
+        # reset
         self.lineEdit_6.setText("")
         
     @QtCore.pyqtSignature("on_pushButton_11_clicked()")
@@ -621,14 +640,15 @@ class Ui_Form(QtGui.QDialog):
 
     @QtCore.pyqtSignature("on_pushButton_8_clicked()")
     def addUsermenu(self):
+        # check username
         user = str(self.lineEdit_3.text())
-        password = str(self.lineEdit_4.text())
-        reenteredPassword = str(self.lineEdit_5.text())
-        
         if len(user) < 2:
             QtGui.QMessageBox.warning(self, 'Error', 'Username must contain at least 2 characters')
             return
 
+        # check password
+        password = str(self.lineEdit_4.text())
+        reenteredPassword = str(self.lineEdit_5.text())
         if password != reenteredPassword:
             QtGui.QMessageBox.warning(self, 'Error', 'Passwords do not match.')
             return
@@ -645,11 +665,13 @@ class Ui_Form(QtGui.QDialog):
             QtGui.QMessageBox.warning(self, 'Error', 'Please choose administrator or user.')
             return
 
+        # check database
         dbname = str(self.comboBox.currentText())
         if dbname == '/':
             QtGui.QMessageBox.warning(self, 'Error', 'Please choose database.')
             return
 
+        # add the user
         success = add_user.add(user, password, privileges, dbname)
         if success == True:
             QtGui.QMessageBox.information(self, 'Success', 'User ' + user + " created.")
@@ -659,16 +681,6 @@ class Ui_Form(QtGui.QDialog):
     @QtCore.pyqtSignature("on_pushButton_4_clicked()")
     def gotoEditUserMenu(self):
         self.stackedWidget.setCurrentIndex(6)
- 
-    def removeUserMenu(self):
-        username = str(self.lineEdit_9.text())
-        dbname = str(self.lineEdit_8.text())
-        os.system("python remove_user.py " + username + ' ' + dbname )
-        lines = self.readContextFile()
-        if lines[0] == "user removed":
-            QtGui.QMessageBox.information(self, 'Success', 'User ' + username + " removed.")
-        else:
-            QtGui.QMessageBox.warning(self, 'Error', 'User not found.')
      
     @QtCore.pyqtSignature("on_pushButton_5_clicked()")
     def takePicturesUserMenu(self):
@@ -741,23 +753,23 @@ class Ui_Form(QtGui.QDialog):
 
     @QtCore.pyqtSignature("on_pushButton_16_clicked()")
     def removeUserMenu(self):
-        username = str(self.users_combo.currentText())
-        print username
+        # check if database selected
         dbname = str(self.dbs_combo.currentText())
-        print dbname
         if dbname == '/':
             QtGui.QMessageBox.warning(self, 'Error', 'Please choose a database.')
             return
+    
+        # check if user selected
+        username = str(self.users_combo.currentText())
         if username == '/':
             QtGui.QMessageBox.warning(self, 'Error', 'Please choose a user to remove.')
             return
-        print "python remove_user.py " + username + ' databases/' + dbname 
-        os.system("python remove_user.py " + username + ' databases/' + dbname )
-        #lines = self.readContextFile()
-        #if lines[0] == "user removed":
-            #QtGui.QMessageBox.information(self, 'Success', 'User ' + username + " removed.")
-        #else:
-            #QtGui.QMessageBox.warning(self, 'Error', 'User not found.')
+        
+        success = remove_user.remove(username, dbname)
+        if success == True:
+            QtGui.QMessageBox.information(self, 'Success', 'User ' + username + " removed.")
+        else:
+            QtGui.QMessageBox.warning(self, 'Error', 'User not found.')
 
     @QtCore.pyqtSignature("on_pushButton_17_clicked()")
     def wrapper(self):
