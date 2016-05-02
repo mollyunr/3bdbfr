@@ -7,18 +7,13 @@ import os
 # Takes [username password privileges database_name] as arguments
 #
 
-arguments = len(sys.argv)
 
-action = 'add_user'
-user = sys.argv[1]
-password = sys.argv[2]
-privileges = sys.argv[3]
-database_name = sys.argv[4]
-created = 'false'
-t = time.time()
-timestamp = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M:%S')
+def add(username, password, privileges, database_name):
+    action = 'add_user'
+    created = 'false'
+    t = time.time()
+    timestamp = datetime.datetime.fromtimestamp(t).strftime('%Y-%m-%d %H:%M:%S')
 
-if arguments == 5:
     f = open('userdatabase.txt', 'r')
     fileLength = sum(1 for line in f)
     f.close()
@@ -30,12 +25,12 @@ if arguments == 5:
     for index in range(0, fileLength):
         temp[index] = temp[index].split();
 
-    if not os.path.exists(database_name + '/' + user):
-        os.mkdir(database_name + '/' + user)
-        created = 'true'
+    if not os.path.exists("databases/" + database_name + '/' + username):
+        os.mkdir("databases/" + database_name + '/' + username)
+        created = True
 
         new_user = []
-        new_user.append(user)
+        new_user.append(username)
         new_user.append(password)
         new_user.append(privileges)
 
@@ -49,27 +44,9 @@ if arguments == 5:
         f = open('log.txt', 'a')
         f.write(timestamp + '\n')
         f.write(action + '\n')
-        f.write('user: ' + user + '\n')
+        f.write('user: ' +username + '\n')
         f.write('privileges: ' + privileges + '\n')
         f.write('database name: ' + database_name + '\n' + '\n')
         f.close()
 
-        path, dirs, files = os.walk(database_name).next()
-        directory_count = len(dirs)
-        database_size = os.path.getsize(database_name)
-
-        path, dirs, files = os.walk(database_name + '/' + temp[0][0]).next()
-        picture_count = len(files)
-
-        f = open(database_name + '/' + 'database_information.txt', 'w')
-        f.write('users: ' + str(directory_count) + '\n')
-        f.write('database size: ' + str(database_size) + ' bytes' + '\n')
-        f.write('pictures per user: ' + str(picture_count) + '\n')
-        f.close()
-
-f = open('context.txt', 'w')
-if created == 'true':
-    f.write('user created')
-else:
-    f.write('user not created')
-f.close()
+    return created
