@@ -7,6 +7,8 @@ import time
 import results
 import camera
 import processImages
+import create_database
+import add_user
 import test
 from PyQt4 import QtCore, QtGui
 
@@ -602,10 +604,8 @@ class Ui_Form(QtGui.QDialog):
     @QtCore.pyqtSignature("on_pushButton_9_clicked()")
     def createDatabaseMenu(self):
         name = str(self.lineEdit_6.text())
-        os.system("python create_database.py " + "databases/" + name)
-        lines = self.readContextFile()
-        print lines
-        if lines[0] == "database created":
+        success = create_database.create(name)
+        if success == True:
             QtGui.QMessageBox.information(self, 'Success', 'Data Base ' + name + " created.")
         else:
             QtGui.QMessageBox.warning(self, 'Database not created', 'A database with that name already exists.')
@@ -625,8 +625,15 @@ class Ui_Form(QtGui.QDialog):
         password = str(self.lineEdit_4.text())
         reenteredPassword = str(self.lineEdit_5.text())
         
+        if len(user) < 2:
+            QtGui.QMessageBox.warning(self, 'Error', 'Username must contain at least 2 characters')
+            return
+
         if password != reenteredPassword:
             QtGui.QMessageBox.warning(self, 'Error', 'Passwords do not match.')
+            return
+        elif len(password) < 4:
+            QtGui.QMessageBox.warning(self, 'Error', 'Password must contain at least 4 characters.')
             return
 
         # check for privileges
@@ -638,11 +645,13 @@ class Ui_Form(QtGui.QDialog):
             QtGui.QMessageBox.warning(self, 'Error', 'Please choose administrator or user.')
             return
 
-
         dbname = str(self.comboBox.currentText())
-        os.system("python add_user.py " + user + ' ' + password + ' ' + privileges + ' ' + "databases/" + dbname)
-        lines = self.readContextFile()
-        if lines[0] == "user created":
+        if dbname == '/':
+            QtGui.QMessageBox.warning(self, 'Error', 'Please choose database.')
+            return
+
+        success = add_user.add(user, password, privileges, dbname)
+        if success == True:
             QtGui.QMessageBox.information(self, 'Success', 'User ' + user + " created.")
         else:
             QtGui.QMessageBox.warning(self, 'Error', 'Username already exists.')
