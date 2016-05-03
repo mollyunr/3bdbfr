@@ -841,7 +841,6 @@ class Ui_Form(QtGui.QDialog):
         dbname = str(self.dbs_combo.currentText())
         username = str(self.users_combo.currentText())
         directory = "databases/" + dbname + '/' + username
-        processImages.crop(directory + "/temp")
         update.updateFiles(directory + "/temp", directory)
         '''
         processImages.deletePictures(directory + "/temp", ".png")
