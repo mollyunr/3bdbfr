@@ -45,3 +45,33 @@ remove_user
 user: sgibb
 privileges: admin
 database name: user_database
+2016-05-02 22:13:33
+login_attempt
+attempted user: admin
+user found: true
+user privileges: admin
+
+2016-05-02 22:38:09
+login_attempt
+attempted user: admin
+user found: true
+user privileges: admin
+
+2016-05-02 22:38:55
+login_attempt
+attempted user: mheadland
+user found: true
+user privileges: user
+
+2016-05-02 22:45:07
+login_attempt
+attempted user: admin
+user found: true
+user privileges: admin
+
+2016-05-02 22:47:08
+login_attempt
+attempted user: admin
+user found: true
+user privileges: admin
+

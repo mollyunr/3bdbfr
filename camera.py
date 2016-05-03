@@ -8,7 +8,7 @@ import StringIO
 import shutil
 from select import select
 
-SIZE = (100,100)
+SIZE = (250,250)
 CAM_INDEX = 1
 
 def timer(timeout):
@@ -39,7 +39,7 @@ def initializeScreen(cam):
 
 def takePictures(cam, directory):
     count = 0 
-    while count < 1:
+    while count < 12:
         delay = timer(1)
         img = cam.get_image()		
         pygame.image.save(img, directory+"/"+str(count)+".png")
