@@ -13,6 +13,7 @@ import remove_user
 import login
 import pca
 import test
+import update
 import shutil
 from PyQt4 import QtCore, QtGui
 
@@ -840,12 +841,14 @@ class Ui_Form(QtGui.QDialog):
         dbname = str(self.dbs_combo.currentText())
         username = str(self.users_combo.currentText())
         directory = "databases/" + dbname + '/' + username
-        processImages.crop(directory + "/temp")
+        update.updateFiles(directory + "/temp", directory)
+        '''
         processImages.deletePictures(directory + "/temp", ".png")
         for index in range(3,13):
             shutil.move(directory + "/temp/" + str(index) + ".pgm", directory + '/' + str(index) + ".pgm")
         if os.path.exists(directory + '/temp'):
             shutil.rmtree(directory + '/temp')
+        '''
         pca.runPCA(dbname)
         self.reset()
         self.gobacktoMenu()
