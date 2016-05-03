@@ -2,10 +2,10 @@ import sys
 import cv2
 import os
 
-def deletePictures(directory):
+def deletePictures(directory, imageType):
     path, dirs, files = os.walk(directory).next()
     for index in range(0, len(files)):
-        if files[index].find('.png') > -1:
+        if files[index].find(imageType) > -1:
             os.remove(directory + '/' + files[index])
 
 def crop(directory):
@@ -23,8 +23,6 @@ def crop(directory):
                 image2 = grayImage[y:y+h, x:x+h]
                 image2 = cv2.resize(image2, (250, 250))
                 cv2.imwrite(directory + '/' + str(index+1) + '.pgm', image2)
-    
-    deletePictures(directory)
 
 if __name__ == '__main__':
     crop(sys.argv[1])

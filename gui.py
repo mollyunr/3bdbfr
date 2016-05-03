@@ -11,7 +11,9 @@ import create_database
 import add_user
 import remove_user
 import login
+import pca
 import test
+import shutil
 from PyQt4 import QtCore, QtGui
 
 try:
@@ -179,7 +181,7 @@ class Ui_Form(QtGui.QDialog):
         font.setPointSize(22)
         self.pushButton_19.setFont(font)
         self.pushButton_19.setObjectName(_fromUtf8("pushButton_19"))
-        self.verticalLayout_4.addWidget(self.pushButton_19)
+        #self.verticalLayout_4.addWidget(self.pushButton_19)
         self.verticalLayout_9 = QtGui.QVBoxLayout()
         self.verticalLayout_9.setObjectName(_fromUtf8("verticalLayout_9"))
         self.pushButton_12 = QtGui.QPushButton(self.adminMenu)
@@ -534,6 +536,10 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_18.setFont(font)
         self.pushButton_18.setObjectName(_fromUtf8("pushButton_18"))
         self.verticalLayout_16.addWidget(self.pushButton_18)
+        self.pushButton_14 = QtGui.QPushButton(self.takePictures)
+        self.pushButton_14.setFont(font)
+        self.pushButton_14.setObjectName(_fromUtf8("pushButton_14"))
+        self.verticalLayout_16.addWidget(self.pushButton_14)
         self.horizontalLayout_28.addLayout(self.verticalLayout_16)
         self.stackedWidget.addWidget(self.takePictures)
 
@@ -569,9 +575,9 @@ class Ui_Form(QtGui.QDialog):
         self.radioButton_2.setText(_translate("Form", "User", None))
         self.pushButton_7.setText(_translate("Form", "Go Back", None))
         self.pushButton_8.setText(_translate("Form", "Add New User", None))
-        self.label_9.setText(_translate("Form", "Add Database", None))
+        self.label_9.setText(_translate("Form", "Create New Database", None))
         self.label_8.setText(_translate("Form", "Database Name:", None))
-        self.pushButton_9.setText(_translate("Form", "Add Database", None))
+        self.pushButton_9.setText(_translate("Form", "Create Database", None))
         self.label_14.setText(_translate("Form", "Set Current Database", None))
         self.pushButton_11.setText(_translate("Form", "Done", None))
         self.label_10.setText(_translate("Form", "Edit User", None))
@@ -580,15 +586,20 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_17.setText(_translate("Form", "Back", None))
         self.label_11.setText(_translate("Form", "Get ready, then press Capture", None))
         self.pushButton_13.setText(_translate("Form", "Capture", None))
-        self.pushButton_18.setText(_translate("Form", "Back", None))
+        self.pushButton_18.setText(_translate("Form", "Done", None))
+        self.pushButton_14.setText(_translate("Form", "Cancel", None))
+        
+        self.reset()
 
     def reset(self):
         self.pushButton_5.setEnabled(True)
         self.pushButton_6.setEnabled(False)
+        self.pushButton_18.setEnabled(False)
         self.label_12.setText(_translate("Form", "Get ready and then press capture", None))
         self.pushButton_5.setText(_translate("3BDB-FR", "Capture", None))
         self.label_11.setText(_translate("Form", "Get ready, then press Capture", None))
         self.pushButton_13.setText(_translate("3BDB-FR", "Capture", None))
+        self.pushButton_18.setText(_translate("3BDB-FR", "Add Pictures", None))
 
     def readContextFile(self):
         with open("context.txt") as f:
@@ -705,6 +716,8 @@ class Ui_Form(QtGui.QDialog):
      
     @QtCore.pyqtSignature("on_pushButton_5_clicked()")
     def takePicturesUserMenu(self):
+        if not os.path.exists("test/testUser"):
+            os.mkdir("test/testUser")
         camera.savePictures("test/testUser")
         pixmap = QtGui.QPixmap("test/testUser/4.png")
         width = self.label_12.width()
@@ -724,8 +737,10 @@ class Ui_Form(QtGui.QDialog):
         if resultText == "pass":
             resultText = "Welcome " + username + '!'
         else:
-            resultText = "Verification of indentiy was not met.\n An administrator will be notified."
+            resultText = "Verification of identity was not met.\n An administrator will be notified."
         self.label_12.setText(_translate("Form", resultText, None))
+        if os.path.exists("test/testUser"):
+            shutil.rmtree("test/testUser")
 
     @QtCore.pyqtSignature("on_pushButton_7_clicked()")
     def gobacktoMenu(self):
@@ -752,25 +767,42 @@ class Ui_Form(QtGui.QDialog):
         self.reset()
         self.stackedWidget.setCurrentIndex(0)
         self.lineEdit.setText('')
-        self.lineEdit_2.setText('')
-
-    @QtCore.pyqtSignature("on_pushButton_15_clicked()")
-    def gotoTakePictures(self):
-        self.stackedWidget.setCurrentIndex(7)
+        self.lineEdit_2.setText('')    
 
     @QtCore.pyqtSignature("on_pushButton_13_clicked()")
     def takeInitialPictures(self):
-        print "Take pictures"
         dbname = str(self.dbs_combo.currentText())
         username = str(self.users_combo.currentText())
-        print "databases/" + dbname + '/' + username
-        camera.savePictures("databases/" + dbname + '/' + username )
-        pixmap = QtGui.QPixmap("databases/" + dbname + '/' + username + '/4.png')
+        directory = "databases/" + dbname + '/' + username + "/temp"
+
+        if os.path.exists(directory):
+            shutil.rmtree(directory)
+        
+        os.mkdir(directory)
+        camera.savePictures(directory)
+        processImages.crop(directory)
+        processImages.deletePictures(directory, ".png")
+        pixmap = QtGui.QPixmap(directory + "/5.pgm")
         width = self.label_11.width()
         height = self.label_11.height()
         self.label_11.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))
         self.label_11.show()
         self.pushButton_13.setText(_translate("3BDB-FR", "Re-Capture", None))
+        self.pushButton_18.setEnabled(True)
+
+    @QtCore.pyqtSignature("on_pushButton_14_clicked()")
+    def cancelTakingPictures(self):
+        dbname = str(self.dbs_combo.currentText())
+        username = str(self.users_combo.currentText())
+        directory = "databases/" + dbname + '/' + username
+        if os.path.exists(directory + '/temp'):
+            shutil.rmtree(directory + '/temp')
+        self.stackedWidget.setCurrentIndex(6)
+        self.reset()
+
+    @QtCore.pyqtSignature("on_pushButton_15_clicked()")
+    def gotoTakePictures(self):
+        self.stackedWidget.setCurrentIndex(7)
 
     @QtCore.pyqtSignature("on_pushButton_16_clicked()")
     def removeUserMenu(self):
@@ -802,10 +834,15 @@ class Ui_Form(QtGui.QDialog):
         self.gobacktoMenu()
 
     @QtCore.pyqtSignature("on_pushButton_18_clicked()")
-    def wrapper2(self):
+    def movePicturesToUserFile(self):
         dbname = str(self.dbs_combo.currentText())
         username = str(self.users_combo.currentText())
-        processImages.crop("databases/" + dbname + '/' + username )
+        directory = "databases/" + dbname + '/' + username
+        for index in range(3,13):
+            shutil.move(directory + "/temp/" + str(index) + ".pgm", directory + '/' + str(index) + ".pgm")
+        if os.path.exists(directory + '/temp'):
+            shutil.rmtree(directory + '/temp')
+        pca.runPCA(dbname)
         self.reset()
         self.gobacktoMenu()
 

@@ -21,8 +21,12 @@ def initializeCamera(index):
 	pygame.camera.init()
 	cam = 0
 	#use default webcam
-	cam = pygame.camera.Camera(pygame.camera.list_cameras()[index],SIZE)
+	try:
+		cam = pygame.camera.Camera(pygame.camera.list_cameras()[index],SIZE)
 	
+	except IndexError:
+		cam = pygame.camera.Camera(pygame.camera.list_cameras()[0],SIZE)
+
 	#check if webcam detected, if not report error message
 	return cam
 
@@ -35,7 +39,7 @@ def initializeScreen(cam):
 
 def takePictures(cam, directory):
 	count = 0 
-	while count < 5:
+	while count < 12:
 		delay = timer(1)
 		img = cam.get_image()		
 		pygame.image.save(img, directory+"/"+str(count)+".png")

@@ -9,16 +9,17 @@ from sklearn import decomposition
 # Takes database name as argument
 #
 
-arguments = len(sys.argv)
-
-if arguments == 2:
+def runPCA(database):
+    print "PCA!"
     trainingFileNames = []
 
-    path, dirs, files = os.walk(sys.argv[1]).next()
+    path, dirs, files = os.walk("databases/" + database).next()
     for index in range(0, len(dirs)):
-        path2, dirs2, files2 = os.walk(sys.argv[1] + '/' + dirs[index]).next()
+        path2, dirs2, files2 = os.walk("databases/" + database + '/' + dirs[index]).next()
         for indexTwo in range(0, len(files2)):
-            trainingFileNames.append(sys.argv[1] + '/' + dirs[index] + '/' + files2[indexTwo])
+            filename = "databases/" + database + '/' + dirs[index] + '/' + files2[indexTwo]
+            if filename.find(".pgm") > -1:
+                trainingFileNames.append(filename)
 
     # load all training images into list with unsigned integer (8 bit) values
     trainingFaces = []
@@ -52,3 +53,6 @@ if arguments == 2:
     f.close()
 
     np.save('trainingEigenfaces', trainingEigenfaces)
+
+if __name__ == '__main__':
+    runPCA(sys.argv[1])

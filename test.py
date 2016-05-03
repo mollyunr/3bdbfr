@@ -51,7 +51,11 @@ def testPCA(test_folder_name, database_name, username):
 
     path, dirs, files = os.walk(database_name + '/' + username).next()
     for index in range(0, len(files)):
-        trainingFileNames.append(database_name + '/' + username + '/' + files[index])
+        filename = database_name + '/' + username + '/' + files[index]
+        if filename.find(".pgm") > -1:
+            trainingFileNames.append(filename)
+
+    print trainingFileNames
 
     traininFaces = []
 
@@ -87,7 +91,6 @@ def testPCA(test_folder_name, database_name, username):
     # get eigenfaces for both testing and training data
     trainingEigenfaces = pca.transform(traininFaces)
     testingEigenfaces = pca.transform(testingFaces)
-
 
     # initialize ROC curve variables
     falseNegatives = 0
