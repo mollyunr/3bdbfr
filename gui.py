@@ -176,12 +176,14 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_4.setObjectName(_fromUtf8("pushButton_4"))
         self.horizontalLayout_24.addWidget(self.pushButton_4)
         self.verticalLayout_4.addLayout(self.horizontalLayout_24)
+        '''
         self.pushButton_19 = QtGui.QPushButton(self.adminMenu)
         font = QtGui.QFont()
         font.setPointSize(22)
         self.pushButton_19.setFont(font)
         self.pushButton_19.setObjectName(_fromUtf8("pushButton_19"))
-        #self.verticalLayout_4.addWidget(self.pushButton_19)
+        self.verticalLayout_4.addWidget(self.pushButton_19)
+        '''
         self.verticalLayout_9 = QtGui.QVBoxLayout()
         self.verticalLayout_9.setObjectName(_fromUtf8("verticalLayout_9"))
         self.pushButton_12 = QtGui.QPushButton(self.adminMenu)
@@ -189,7 +191,7 @@ class Ui_Form(QtGui.QDialog):
         font.setPointSize(22)
         self.pushButton_12.setFont(font)
         self.pushButton_12.setObjectName(_fromUtf8("pushButton_12"))
-        #self.verticalLayout_9.addWidget(self.pushButton_12)
+        self.verticalLayout_9.addWidget(self.pushButton_12)
         self.verticalLayout_4.addLayout(self.verticalLayout_9)
         spacerItem9 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout_4.addItem(spacerItem9)
@@ -560,7 +562,7 @@ class Ui_Form(QtGui.QDialog):
         self.pushButton_2.setText(_translate("Form", "Edit Databases", None))
         self.pushButton_3.setText(_translate("Form", "Add User", None))
         self.pushButton_4.setText(_translate("Form", "Edit User", None))
-        self.pushButton_19.setText(_translate("Form", "Adjust Threshold", None))
+        #self.pushButton_19.setText(_translate("Form", "Adjust Threshold", None))
         self.pushButton_12.setText(_translate("Form", "Log Out", None))
         self.label_12.setText(_translate("Form", "Get ready and then press capture", None))
         self.pushButton_5.setText(_translate("Form", "Capture", None))
@@ -780,9 +782,9 @@ class Ui_Form(QtGui.QDialog):
         
         os.mkdir(directory)
         camera.savePictures(directory)
-        processImages.crop(directory)
-        processImages.deletePictures(directory, ".png")
-        pixmap = QtGui.QPixmap(directory + "/5.pgm")
+        #processImages.crop(directory)
+        #processImages.deletePictures(directory, ".png")
+        pixmap = QtGui.QPixmap(directory + "/5.png")
         width = self.label_11.width()
         height = self.label_11.height()
         self.label_11.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))
@@ -838,6 +840,8 @@ class Ui_Form(QtGui.QDialog):
         dbname = str(self.dbs_combo.currentText())
         username = str(self.users_combo.currentText())
         directory = "databases/" + dbname + '/' + username
+        processImages.crop(directory + "/temp")
+        processImages.deletePictures(directory + "/temp", ".png")
         for index in range(3,13):
             shutil.move(directory + "/temp/" + str(index) + ".pgm", directory + '/' + str(index) + ".pgm")
         if os.path.exists(directory + '/temp'):
