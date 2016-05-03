@@ -1,60 +1,60 @@
-negative
-5049.6683587
+positive
+1126.17455664
 test/testUser/12.pgm
-databases/user_database/mheadland/8.pgm
+databases/user_database/mheadland/7.pgm
 
-negative
-4837.67253414
+positive
+931.450160201
 test/testUser/1.pgm
 databases/user_database/mheadland/8.pgm
 
-negative
-4987.07081214
+positive
+830.400991545
 test/testUser/6.pgm
-databases/user_database/mheadland/8.pgm
+databases/user_database/mheadland/7.pgm
 
-negative
-4803.77614792
+positive
+714.6886592
 test/testUser/11.pgm
-databases/user_database/mheadland/3.pgm
+databases/user_database/mheadland/7.pgm
 
-negative
-4617.37075654
+positive
+482.270136187
 test/testUser/9.pgm
-databases/user_database/mheadland/4.pgm
+databases/user_database/mheadland/6.pgm
 
-negative
-4418.63435647
+positive
+678.852977202
 test/testUser/8.pgm
-databases/user_database/mheadland/8.pgm
+databases/user_database/mheadland/7.pgm
 
-negative
-4443.70671601
+positive
+684.116693718
 test/testUser/7.pgm
-databases/user_database/mheadland/4.pgm
+databases/user_database/mheadland/10.pgm
 
-negative
-4423.60422323
+positive
+815.38782524
 test/testUser/4.pgm
+databases/user_database/mheadland/6.pgm
+
+positive
+1303.77379266
+test/testUser/3.pgm
 databases/user_database/mheadland/8.pgm
 
-negative
-4467.10868799
-test/testUser/3.pgm
-databases/user_database/mheadland/4.pgm
-
-negative
-4642.88140375
+positive
+891.066580262
 test/testUser/2.pgm
 databases/user_database/mheadland/4.pgm
 
-negative
-4250.58632191
+positive
+796.062265684
 test/testUser/10.pgm
-databases/user_database/mheadland/12.pgm
+databases/user_database/mheadland/7.pgm
 
-negative
-4955.24606211
+positive
+972.277175478
 test/testUser/5.pgm
-databases/user_database/mheadland/4.pgm
+databases/user_database/mheadland/8.pgm
 

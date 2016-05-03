@@ -40,7 +40,7 @@ def initializeScreen(cam):
 def takePictures(cam, directory):
     count = 0 
     while count < 12:
-        delay = timer(1)
+        #delay = timer(1)
         img = cam.get_image()		
         pygame.image.save(img, directory+"/"+str(count)+".png")
         count += 1

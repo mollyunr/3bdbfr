@@ -99,3 +99,15 @@ attempted user: mheadland
 user found: true
 user privileges: user
 
+2016-05-03 00:20:25
+login_attempt
+attempted user: admin
+user found: true
+user privileges: admin
+
+2016-05-03 00:20:51
+login_attempt
+attempted user: mheadland
+user found: true
+user privileges: user
+
