@@ -1,6 +1,5 @@
 *~
 *.npy
-*.txt
 *.pyc
 *.png
 *.pgm
