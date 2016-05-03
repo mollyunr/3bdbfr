@@ -75,3 +75,27 @@ attempted user: admin
 user found: true
 user privileges: admin
 
+2016-05-02 23:30:01
+login_attempt
+attempted user: admin
+user found: true
+user privileges: admin
+
+2016-05-02 23:30:17
+add_user
+user: test
+privileges: user
+database name: user_database
+
+2016-05-03 00:15:43
+login_attempt
+attempted user: admin
+user found: true
+user privileges: admin
+
+2016-05-03 00:16:15
+login_attempt
+attempted user: mheadland
+user found: true
+user privileges: user
+
